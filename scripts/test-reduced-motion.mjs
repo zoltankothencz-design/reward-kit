@@ -75,6 +75,24 @@ async function measure(browser, reducedMotion) {
   out.levelBadge = (await page.locator(".rk-level__badge").first().textContent()).replace(/\D/g, "");
   out.levelBadgeAnimation = await css(".rk-level__badge", "animationName");
 
+  // Daily streak: today's tile pulses on load; collecting draws the check mark.
+  const streak = page.locator(".prim-card--wide .rk-streak");
+  const todayTile = streak.locator('.rk-streak__tile[data-state="today"]');
+  out.streakPulse = await todayTile.evaluate((el) => getComputedStyle(el).animationName);
+  await streak.getByRole("button", { name: /^Collect day/ }).click();
+  await page.waitForTimeout(100);
+  const check = streak.locator('.rk-streak__check[data-fresh="true"] path');
+  out.streakCheckDrawn = (await check.count()) === 1;
+  out.streakCheck = await check.evaluate((el) => getComputedStyle(el).animationName);
+
+  // Offer card: hover transition, and the coin icon bounces once when bought.
+  const offer = page.locator(".prim-card__offer .rk-offer");
+  out.offerTransition = await offer.evaluate((el) => getComputedStyle(el).transitionDuration);
+  await offer.locator(".rk-offer__buy").click();
+  await page.waitForTimeout(100);
+  out.offerBought = await offer.getAttribute("data-bought");
+  out.offerBounce = await offer.locator(".rk-offer__icon").evaluate((el) => getComputedStyle(el).animationName);
+
   out.running = await page.evaluate(() =>
     document.getAnimations().filter((a) => a.playState === "running").map((a) => a.animationName || a.transitionProperty),
   );
@@ -97,10 +115,19 @@ try {
   check("level badge shows the new level without a pop", reduced.levelBadge.startsWith("12") && reduced.levelBadgeAnimation === "none", `${reduced.levelBadge} ${reduced.levelBadgeAnimation}`);
   check("nothing on the page is animating", reduced.running.length === 0, reduced.running.join(", "));
 
+  check("streak tile does not pulse", reduced.streakPulse === "none", reduced.streakPulse);
+  check("streak check mark is there without drawing", reduced.streakCheckDrawn && reduced.streakCheck === "none", `${reduced.streakCheckDrawn} ${reduced.streakCheck}`);
+  check("offer card does not transition", reduced.offerTransition === "0s", reduced.offerTransition);
+  check("offer card is bought without the bounce", reduced.offerBought === "true" && reduced.offerBounce === "none", `${reduced.offerBought} ${reduced.offerBounce}`);
+
   // Control: the same checks without the setting must find motion.
   const normal = await measure(browser, "no-preference");
   check("control: wheel transitions without the setting", normal.wheelTransition !== "0s", normal.wheelTransition);
   check("control: chest lid animates without the setting", normal.chestLid !== "none", normal.chestLid);
+  check("control: streak tile pulses without the setting", normal.streakPulse !== "none", normal.streakPulse);
+  check("control: streak check draws without the setting", normal.streakCheck !== "none", normal.streakCheck);
+  check("control: offer card transitions without the setting", normal.offerTransition !== "0s", normal.offerTransition);
+  check("control: offer icon bounces without the setting", normal.offerBounce !== "none", normal.offerBounce);
   check("control: level bar transitions without the setting", normal.levelTransition !== "0s", normal.levelTransition);
 } finally {
   await browser.close();

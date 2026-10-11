@@ -117,7 +117,7 @@ this demo, not an industry benchmark.
 
 ## Known limits
 
-- Reduced motion has an automated check, `npm run test:motion`: it opens the gallery in Chrome or Edge with the setting emulated and fails if anything animates or an element misses its end state; a control run without the setting must show the motion. It needs a browser installed, so it is not part of `npm run build`. It covers the wheel, chest and level bar; the other primitives are not in it yet.
+- Reduced motion has an automated check, `npm run test:motion`: it opens the gallery in Chrome or Edge with the setting emulated and fails if anything animates or an element misses its end state; a control run without the setting must show the motion. It needs a browser installed, so it is not part of `npm run build`. It covers the wheel, chest, level bar, daily streak and offer card (the coin and the buttons have no motion of their own beyond what these checks see).
 - The style check is a text scan, not a CSS parser. It catches the usual slips, not every way to hard-code a value.
 - The motion spec check proves a file uses a token, not that it uses it for the beat the spec describes.
 - `motion.easing.in` is defined but no component uses it yet.
