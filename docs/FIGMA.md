@@ -58,6 +58,22 @@ Run each through `use_figma` after `figma/variables.js`. Only `LevelBar` has bee
 other four were built by the same code in separate runs and were then moved into the repository, so a first re-run of each is worth
 a quick visual check.
 
+## Images
+
+Screenshots of the file, kept here so the result can be seen without opening Figma (taken 2026-10-11):
+
+| Image | Shows |
+|---|---|
+| [`overview.png`](figma/overview.png) | The Overview page: every component in each brand |
+| [`reward-chest.png`](figma/reward-chest.png) | RewardChest, 24 variants |
+| [`prize-wheel.png`](figma/prize-wheel.png) | PrizeWheel, spin and locked, three brands |
+| [`level-bar.png`](figma/level-bar.png) | LevelBar, three progress steps, three brands |
+| [`offer-card.png`](figma/offer-card.png) | OfferCard, plain and featured, three brands |
+| [`daily-streak-tile.png`](figma/daily-streak-tile.png), [`daily-streak.png`](figma/daily-streak.png) | The streak tile variants and the seven-day row |
+| [`brand-sheet-aurum.png`](figma/brand-sheet-aurum.png), [`brand-sheet-amber.png`](figma/brand-sheet-amber.png), [`brand-sheet-frost.png`](figma/brand-sheet-frost.png) | The brand sheet: swatches, reward tiers, card and button |
+
+The images are a record, not a backup: the editable file is in Figma. To keep a copy of it, use File > Save local copy in Figma.
+
 ## Limits
 
 - Motion values are stored as numbers and text for reference. Figma cannot play them; `docs/MOTION.md` is the motion spec.

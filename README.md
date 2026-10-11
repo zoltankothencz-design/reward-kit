@@ -29,6 +29,15 @@ Opens on http://localhost:5183. Three tabs: Gallery, Motion spec, Economy.
 
 `npm run build` runs every check and the unit tests. `npm run test:motion` is separate because it needs Chrome or Edge installed (see Known limits).
 
+## The Figma file
+
+The Figma file is generated from the same tokens. This is the overview page: every component in each brand.
+
+![The Figma overview page: chest, prize wheel, offer cards, level bar and daily streak in Aurum, Amber and Frost](docs/figma/overview.png)
+
+More images (each component set and the brand sheets) are in [`docs/figma/`](docs/figma/), described in [`docs/FIGMA.md`](docs/FIGMA.md).
+The file itself lives in Figma and is not in this repository; the scripts that build it are.
+
 ## How it is organised
 
 - `tokens/core.json`: spacing, type scale and **motion** (durations, easing curves, the timing of every primitive). Shared by every brand.
