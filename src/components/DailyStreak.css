@@ -1,0 +1,116 @@
+.rk-streak {
+  display: grid;
+  justify-items: center;
+  gap: var(--rk-space-6);
+  width: 100%;
+}
+
+.rk-streak__days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--rk-space-2);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rk-streak__tile {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--rk-space-1);
+  min-height: 112px;
+  padding: var(--rk-space-3) var(--rk-space-1);
+  border-radius: var(--rk-radius-md);
+  background: var(--rk-color-surface);
+  box-shadow: inset 0 0 0 1px var(--rk-color-border);
+}
+.rk-streak__day {
+  font-size: var(--rk-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rk-color-text-muted);
+}
+.rk-streak__coins {
+  font-family: var(--rk-font-display);
+  font-size: var(--rk-font-size-md);
+  letter-spacing: var(--rk-font-display-tracking);
+  font-variant-numeric: tabular-nums;
+}
+.rk-streak__bonus {
+  font-size: var(--rk-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* upcoming days are quiet; today stands out by a gold edge; collected days dim */
+.rk-streak__tile[data-state="upcoming"] .rk-coin,
+.rk-streak__tile[data-state="upcoming"] .rk-streak__coins {
+  opacity: 0.6;
+}
+.rk-streak__tile[data-state="today"] {
+  background: var(--rk-color-surface-raised);
+  box-shadow: inset 0 0 0 2px var(--gold);
+  animation: rk-streak-pulse var(--rk-motion-streak-pulse) var(--rk-motion-easing-out);
+}
+.rk-streak__tile[data-state="claimed"] .rk-coin,
+.rk-streak__tile[data-state="claimed"] .rk-streak__coins,
+.rk-streak__tile[data-state="claimed"] .rk-streak__day,
+.rk-streak__tile[data-state="claimed"] .rk-streak__bonus {
+  opacity: 0.25;
+}
+
+.rk-streak__check {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.rk-streak__check svg {
+  width: 36px;
+  height: 36px;
+  fill: none;
+  stroke: var(--rk-color-tier-major);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rk-streak__check path {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 0;
+}
+.rk-streak__check[data-fresh="true"] path {
+  animation: rk-streak-draw var(--rk-motion-streak-check) var(--rk-motion-easing-out) backwards;
+}
+
+.rk-streak__claim:disabled {
+  background: var(--rk-color-surface-raised);
+  color: var(--rk-color-text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+@keyframes rk-streak-pulse {
+  from { transform: scale(1.08); }
+}
+@keyframes rk-streak-draw {
+  from { stroke-dashoffset: 22; }
+}
+
+@media (max-width: 640px) {
+  .rk-streak__days {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-streak__tile,
+  .rk-streak__check path {
+    animation: none !important;
+  }
+}

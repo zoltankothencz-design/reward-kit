@@ -1,0 +1,103 @@
+/* Shared, brand-agnostic pieces. Anything visual reads a token. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Shades derived once per brand from the three chest colour tokens, so every
+   component that wants "wood" or "gold" gets the same look. */
+[data-brand] {
+  --wood: var(--rk-color-chest-body);
+  --wood-hi: color-mix(in srgb, var(--wood) 72%, white);
+  --wood-lo: color-mix(in srgb, var(--wood) 62%, var(--rk-color-chest-dark));
+  --gold: var(--rk-color-chest-trim);
+  --gold-hi: color-mix(in srgb, var(--gold) 45%, white);
+  --gold-lo: color-mix(in srgb, var(--gold) 62%, var(--rk-color-chest-dark));
+}
+
+/* A themed region. Put data-brand on it (or on a parent) to pick the brand. */
+.rk-surface {
+  background: var(--rk-color-bg);
+  color: var(--rk-color-text);
+  font-family: var(--rk-font-body);
+  font-size: var(--rk-font-size-md);
+  line-height: 1.5;
+}
+
+.rk-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.rk-button {
+  min-height: 44px;
+  padding: 0 var(--rk-space-6);
+  border: 0;
+  border-radius: var(--rk-radius-lg);
+  background: var(--rk-color-accent);
+  color: var(--rk-color-on-accent);
+  font: 600 var(--rk-font-size-md) var(--rk-font-body);
+  cursor: pointer;
+  transition: transform var(--rk-motion-duration-fast) var(--rk-motion-easing-out);
+}
+.rk-button:hover {
+  transform: translateY(-1px);
+}
+.rk-button:active {
+  transform: translateY(1px);
+  transition-duration: var(--rk-motion-duration-instant);
+}
+.rk-button:focus-visible,
+.rk-segmented button:focus-visible {
+  outline: 2px solid var(--rk-color-text);
+  outline-offset: 2px;
+}
+.rk-button--quiet {
+  background: transparent;
+  color: var(--rk-color-text-muted);
+  box-shadow: inset 0 0 0 1px var(--rk-color-border);
+}
+
+.rk-segmented {
+  display: inline-flex;
+  padding: var(--rk-space-1);
+  gap: var(--rk-space-1);
+  border-radius: var(--rk-radius-lg);
+  background: var(--rk-color-surface-raised);
+}
+.rk-segmented button {
+  min-height: 36px;
+  padding: 0 var(--rk-space-4);
+  border: 0;
+  border-radius: var(--rk-radius-lg);
+  background: transparent;
+  color: var(--rk-color-text-muted);
+  font: 600 var(--rk-font-size-sm) var(--rk-font-body);
+  text-transform: capitalize;
+  cursor: pointer;
+  transition:
+    background var(--rk-motion-duration-fast) var(--rk-motion-easing-standard),
+    color var(--rk-motion-duration-fast) var(--rk-motion-easing-standard);
+}
+.rk-segmented button[aria-pressed="true"] {
+  background: var(--rk-color-surface);
+  color: var(--rk-color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-button,
+  .rk-segmented button {
+    transition: none;
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$name": "Frost",
+  "$order": 3,
+  "$description": "Light, modern app look: cool whites, indigo action colour, pill shapes.",
+  "color": {
+    "bg": { "$value": "#F2F5FA", "$type": "color" },
+    "surface": { "$value": "#FFFFFF", "$type": "color" },
+    "surface-raised": { "$value": "#E6ECF5", "$type": "color" },
+    "text": { "$value": "#131A2B", "$type": "color" },
+    "text-muted": { "$value": "#5B667A", "$type": "color" },
+    "border": { "$value": "#CFD8E6", "$type": "color" },
+    "accent": { "$value": "#4B3BFF", "$type": "color" },
+    "on-accent": { "$value": "#FFFFFF", "$type": "color" },
+    "tier-mini": { "$value": "#7C4DEB", "$type": "color" },
+    "tier-minor": { "$value": "#0B7FB8", "$type": "color" },
+    "tier-major": { "$value": "#087A53", "$type": "color" },
+    "tier-grand": { "$value": "#D92B4B", "$type": "color" },
+    "chest-body": { "$value": "#5B6CFF", "$type": "color" },
+    "chest-trim": { "$value": "#FFC857", "$type": "color" },
+    "chest-dark": { "$value": "#1B1F4A", "$type": "color" }
+  },
+  "font": {
+    "display": { "$value": "'Sora', sans-serif", "$type": "fontFamily" },
+    "body": { "$value": "'Inter', sans-serif", "$type": "fontFamily" },
+    "display-tracking": { "$value": "-0.02em", "$type": "dimension" }
+  },
+  "radius": {
+    "sm": { "$value": "10px", "$type": "dimension" },
+    "md": { "$value": "18px", "$type": "dimension" },
+    "lg": { "$value": "999px", "$type": "dimension" }
+  }
+}

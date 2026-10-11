@@ -1,0 +1,23 @@
+.rk-coin {
+  display: inline-block;
+  flex: none;
+  line-height: 0;
+}
+.rk-coin svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.rk-coin__rim {
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 1.4;
+}
+.rk-coin__ring {
+  fill: none;
+  stroke: var(--gold-lo);
+  stroke-width: 1.1;
+}
+.rk-coin__star {
+  fill: var(--gold-lo);
+  opacity: 0.85;
+}

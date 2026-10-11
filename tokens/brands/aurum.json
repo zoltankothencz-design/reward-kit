@@ -1,0 +1,32 @@
+{
+  "$name": "Aurum",
+  "$order": 1,
+  "$description": "Classic casino floor: deep navy, engraved gold, sharp corners.",
+  "color": {
+    "bg": { "$value": "#0B1626", "$type": "color" },
+    "surface": { "$value": "#12233A", "$type": "color" },
+    "surface-raised": { "$value": "#1A3050", "$type": "color" },
+    "text": { "$value": "#F1E6C8", "$type": "color" },
+    "text-muted": { "$value": "#9FA9B8", "$type": "color" },
+    "border": { "$value": "#2A4366", "$type": "color" },
+    "accent": { "$value": "#D9B45B", "$type": "color" },
+    "on-accent": { "$value": "#1A1405", "$type": "color" },
+    "tier-mini": { "$value": "#A985FF", "$type": "color" },
+    "tier-minor": { "$value": "#4FB0FF", "$type": "color" },
+    "tier-major": { "$value": "#3DDC84", "$type": "color" },
+    "tier-grand": { "$value": "#FF5C5C", "$type": "color" },
+    "chest-body": { "$value": "#7A4A1E", "$type": "color" },
+    "chest-trim": { "$value": "#D9B45B", "$type": "color" },
+    "chest-dark": { "$value": "#2B1608", "$type": "color" }
+  },
+  "font": {
+    "display": { "$value": "'Cinzel', serif", "$type": "fontFamily" },
+    "body": { "$value": "'Archivo', sans-serif", "$type": "fontFamily" },
+    "display-tracking": { "$value": "0.04em", "$type": "dimension" }
+  },
+  "radius": {
+    "sm": { "$value": "2px", "$type": "dimension" },
+    "md": { "$value": "4px", "$type": "dimension" },
+    "lg": { "$value": "8px", "$type": "dimension" }
+  }
+}

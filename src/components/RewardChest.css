@@ -1,0 +1,256 @@
+/* RewardChest
+   Every colour, font and radius comes from brand tokens. Every duration and
+   curve comes from core motion tokens, so the choreography is identical in
+   every brand. The shiny look (wood, metal, gem) uses the shades derived from
+   the three chest colour tokens in base.css, so a brand supplies no extra values.
+
+   Pattern used throughout: the END state is a plain property and the keyframes
+   only describe where the element comes FROM. With animations switched off
+   (prefers-reduced-motion) the chest still lands in the correct final state. */
+
+.rk-chest {
+  --tier: var(--rk-color-tier-mini);
+  --t-anticipate: var(--rk-motion-chest-anticipate);
+  --t-lid: var(--rk-motion-chest-lid);
+  --t-burst: var(--rk-motion-chest-burst);
+  /* the burst starts when the lid is about a third of the way up */
+  --burst-delay: calc(var(--t-anticipate) + var(--t-lid) * 0.3);
+
+  display: grid;
+  justify-items: center;
+  gap: var(--rk-space-2);
+  text-align: center;
+}
+.rk-chest[data-tier="minor"] { --tier: var(--rk-color-tier-minor); }
+.rk-chest[data-tier="major"] { --tier: var(--rk-color-tier-major); }
+.rk-chest[data-tier="grand"] { --tier: var(--rk-color-tier-grand); }
+
+/* gradient stops read the derived shades */
+.rk-stop--wood-hi { stop-color: var(--wood-hi); }
+.rk-stop--wood { stop-color: var(--wood); }
+.rk-stop--wood-lo { stop-color: var(--wood-lo); }
+.rk-stop--gold-hi { stop-color: var(--gold-hi); }
+.rk-stop--gold { stop-color: var(--gold); }
+.rk-stop--gold-lo { stop-color: var(--gold-lo); }
+.rk-stop--coin-hi { stop-color: color-mix(in srgb, var(--gold) 25%, white); }
+.rk-stop--tier { stop-color: var(--tier); }
+.rk-stop--gem-hi { stop-color: color-mix(in srgb, var(--tier) 35%, white); }
+.rk-stop--gem-lo { stop-color: color-mix(in srgb, var(--tier) 55%, var(--rk-color-chest-dark)); }
+.rk-stop--dark { stop-color: var(--rk-color-chest-dark); }
+
+.rk-chest__art {
+  width: min(100%, 260px);
+  overflow: visible;
+}
+/* Only the animated parts: the ray wedges are placed with SVG rotate()
+   attributes, which need the default (viewBox) origin. */
+.rk-chest__rays,
+.rk-chest__rays-spin,
+.rk-chest__box,
+.rk-chest__lid,
+.rk-chest__coin,
+.rk-chest__spark,
+.rk-chest__heap,
+.rk-chest__halo {
+  transform-box: fill-box;
+}
+.rk-chest__coin,
+.rk-chest__spark,
+.rk-chest__halo {
+  transform-origin: center;
+}
+.rk-chest[data-state="idle"] .rk-chest__art {
+  cursor: pointer;
+}
+
+/* --- parts ---------------------------------------------------------- */
+
+.rk-chest__stroke {
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 1.5;
+}
+.rk-chest__seam {
+  fill: none;
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+.rk-chest__vignette {
+  fill: none;
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 2;
+  opacity: 0.45;
+}
+.rk-chest__lid-edge {
+  fill: none;
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 2;
+  opacity: 0.5;
+}
+.rk-chest__lid-shine { opacity: 0.8; }
+.rk-chest__stud { fill: var(--gold-hi); stroke: var(--rk-color-chest-dark); stroke-width: 1; }
+.rk-chest__spec { fill: #fff; opacity: 0.85; }
+.rk-chest__keyhole { stroke: var(--rk-color-chest-dark); stroke-width: 3; stroke-linecap: round; opacity: 0.6; }
+.rk-chest__inside { fill: var(--rk-color-chest-dark); }
+.rk-chest__coin-ring { fill: none; stroke: var(--gold-lo); stroke-width: 1.2; }
+.rk-chest__floor { fill: var(--rk-color-chest-dark); opacity: 0.35; }
+.rk-chest__gem-glow { opacity: 0.35; }
+.rk-chest__halo { opacity: 0; }
+.rk-chest__glow { opacity: 0; }
+.rk-chest__rays { opacity: 0; transform-origin: center; }
+.rk-chest__rays-spin { transform-origin: center; }
+.rk-chest__coin { opacity: 0; }
+.rk-chest__spark { fill: #fff; opacity: 0; }
+.rk-chest__heap { opacity: 0; }
+
+.rk-chest__box {
+  transform-origin: 50% 100%;
+  transition: transform var(--rk-motion-duration-fast) var(--rk-motion-easing-out);
+}
+.rk-chest__lid {
+  transform-origin: 50% 100%;
+}
+
+/* --- idle: a small lift says "you can open me" ----------------------- */
+
+.rk-chest[data-state="idle"] .rk-chest__art:hover .rk-chest__box {
+  transform: translateY(-3px);
+}
+.rk-chest[data-state="idle"] .rk-chest__art:hover .rk-chest__gem-glow {
+  opacity: 0.7;
+}
+.rk-chest__gem-glow {
+  transition: opacity var(--rk-motion-duration-base) var(--rk-motion-easing-out);
+}
+
+/* --- open: beat 1 squash, beat 2 lid pops, beat 3 burst -------------- */
+
+.rk-chest[data-open="true"] .rk-chest__box {
+  animation: rk-chest-squash var(--t-anticipate) var(--rk-motion-easing-standard);
+}
+.rk-chest[data-open="true"] .rk-chest__lid {
+  transform: translateY(-30px) scaleY(0.8);
+  animation: rk-chest-lid var(--t-lid) var(--rk-motion-easing-overshoot) var(--t-anticipate) backwards;
+}
+.rk-chest[data-open="true"] .rk-chest__glow {
+  opacity: 0.95;
+  animation: rk-chest-fade-in var(--t-lid) var(--rk-motion-easing-out) var(--t-anticipate) backwards;
+}
+.rk-chest[data-open="true"] .rk-chest__heap {
+  opacity: 1;
+  animation: rk-chest-fade-in var(--t-lid) var(--rk-motion-easing-out) var(--t-anticipate) backwards;
+}
+.rk-chest[data-open="true"] .rk-chest__gem-glow {
+  opacity: 0.9;
+}
+.rk-chest[data-open="true"] .rk-chest__halo {
+  opacity: 0.65;
+  animation: rk-chest-halo var(--t-burst) var(--rk-motion-easing-out) var(--burst-delay) backwards;
+}
+.rk-chest[data-open="true"] .rk-chest__rays {
+  opacity: 0.55;
+  animation: rk-chest-rays var(--t-burst) var(--rk-motion-easing-out) var(--burst-delay) backwards;
+}
+.rk-chest[data-open="true"] .rk-chest__rays-spin {
+  animation: rk-chest-spin 28s linear infinite;
+}
+.rk-chest[data-open="true"] .rk-chest__coin {
+  animation: rk-chest-coin var(--t-burst) var(--rk-motion-easing-out)
+    calc(var(--burst-delay) + var(--i) * 30ms) backwards;
+}
+/* sparkles twinkle once during the burst, then rest */
+.rk-chest[data-open="true"] .rk-chest__spark {
+  animation: rk-chest-spark var(--t-burst) var(--rk-motion-easing-out)
+    calc(var(--burst-delay) + 120ms + var(--i) * 70ms) backwards;
+}
+
+/* --- claimed: the celebration calms down ----------------------------- */
+
+.rk-chest[data-state="claimed"] .rk-chest__rays,
+.rk-chest[data-state="claimed"] .rk-chest__halo,
+.rk-chest[data-state="claimed"] .rk-chest__glow {
+  opacity: 0;
+  transition: opacity var(--rk-motion-duration-base) var(--rk-motion-easing-standard);
+}
+.rk-chest[data-state="claimed"] .rk-chest__art {
+  opacity: 0.55;
+  transition: opacity var(--rk-motion-duration-base) var(--rk-motion-easing-standard);
+}
+
+/* --- text ------------------------------------------------------------ */
+
+.rk-chest__tier {
+  margin: 0;
+  font-family: var(--rk-font-body);
+  font-size: var(--rk-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tier);
+}
+.rk-chest__amount {
+  margin: 0;
+  font-family: var(--rk-font-display);
+  font-size: var(--rk-font-size-2xl);
+  letter-spacing: var(--rk-font-display-tracking);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--rk-color-text);
+  opacity: 0;
+}
+.rk-chest[data-open="true"] .rk-chest__amount {
+  opacity: 1;
+  animation: rk-chest-fade-in var(--rk-motion-duration-base) var(--rk-motion-easing-out)
+    calc(var(--t-anticipate) + var(--t-lid) * 0.5) backwards;
+}
+.rk-chest[data-state="open"] .rk-chest__amount {
+  /* the number lands: one small pop when the count finishes */
+  animation: rk-chest-land var(--rk-motion-duration-base) var(--rk-motion-easing-overshoot);
+}
+.rk-chest__action {
+  min-height: 44px;
+  margin-top: var(--rk-space-2);
+}
+
+/* --- keyframes: only the starting points ----------------------------- */
+
+@keyframes rk-chest-squash {
+  50% { transform: scale(1.07, 0.9); }
+}
+@keyframes rk-chest-lid {
+  from { transform: none; }
+}
+@keyframes rk-chest-fade-in {
+  from { opacity: 0; }
+}
+@keyframes rk-chest-halo {
+  from { opacity: 0; transform: scale(0.3); }
+}
+@keyframes rk-chest-rays {
+  from { opacity: 0; transform: scale(0.2); }
+}
+@keyframes rk-chest-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes rk-chest-coin {
+  from { opacity: 0; transform: scale(0.4); }
+  15% { opacity: 1; }
+  60% { opacity: 1; transform: translate(var(--dx), var(--dy)); }
+  to { opacity: 0; transform: translate(var(--dx), calc(var(--dy) + 36px)); }
+}
+@keyframes rk-chest-spark {
+  0% { opacity: 0; transform: scale(0) rotate(-45deg); }
+  35% { opacity: 1; transform: scale(1.25) rotate(0); }
+  100% { opacity: 0; transform: scale(0.4) rotate(45deg); }
+}
+@keyframes rk-chest-land {
+  from { transform: scale(1.14); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-chest *,
+  .rk-chest *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}

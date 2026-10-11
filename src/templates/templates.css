@@ -1,0 +1,65 @@
+/* Templates only arrange primitives. They add no colours, no fonts and no
+   motion of their own; scripts/check-styles.mjs enforces that. */
+
+.rk-template {
+  display: grid;
+  gap: var(--rk-space-6);
+  justify-items: center;
+  padding: var(--rk-space-8) var(--rk-space-6);
+  border-radius: var(--rk-radius-md);
+  background: var(--rk-color-surface);
+  text-align: center;
+}
+.rk-template__head h3 {
+  margin: 0;
+  font-size: var(--rk-font-size-xl);
+}
+.rk-template__head p,
+.rk-template__hint {
+  margin: var(--rk-space-2) 0 0;
+  color: var(--rk-color-text-muted);
+}
+.rk-template__hint {
+  margin: 0;
+  font-size: var(--rk-font-size-sm);
+}
+
+.rk-daily__stage {
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  width: 100%;
+}
+
+.rk-store__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--rk-space-6);
+  align-items: stretch;
+  width: 100%;
+  padding-top: var(--rk-space-3);
+}
+
+.rk-levelup__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--rk-space-3);
+}
+.rk-levelup__reward {
+  display: grid;
+  justify-items: center;
+  gap: var(--rk-space-3);
+  width: 100%;
+}
+.rk-levelup__reward h4 {
+  margin: 0;
+  font-family: var(--rk-font-display);
+  font-size: var(--rk-font-size-lg);
+  letter-spacing: var(--rk-font-display-tracking);
+}
+
+@media (max-width: 760px) {
+  .rk-template { padding-inline: var(--rk-space-3); }
+  .rk-store__grid { grid-template-columns: minmax(0, 1fr); }
+}

@@ -1,0 +1,74 @@
+.rk-level {
+  display: flex;
+  align-items: center;
+  gap: var(--rk-space-4);
+  width: 100%;
+}
+
+.rk-level__badge {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, var(--gold-hi), var(--gold) 55%, var(--gold-lo));
+  box-shadow:
+    inset 0 0 0 2px var(--rk-color-chest-dark),
+    inset 0 0 0 4px var(--gold-hi);
+  color: var(--rk-color-chest-dark);
+  text-align: center;
+  line-height: 1;
+}
+.rk-level__badge[data-pop="true"] {
+  animation: rk-level-pop var(--rk-motion-level-pop) var(--rk-motion-easing-overshoot);
+}
+.rk-level__label {
+  font: 600 10px var(--rk-font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rk-level__num {
+  font-family: var(--rk-font-display);
+  font-size: var(--rk-font-size-xl);
+  letter-spacing: var(--rk-font-display-tracking);
+}
+
+.rk-level__body {
+  flex: 1;
+  min-width: 0;
+}
+.rk-level__track {
+  height: 16px;
+  border-radius: var(--rk-radius-lg);
+  background: var(--rk-color-surface-raised);
+  box-shadow: inset 0 0 0 1px var(--rk-color-border);
+  overflow: hidden;
+}
+.rk-level__fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-lo));
+  transition: width var(--rk-motion-level-fill) var(--rk-motion-easing-out);
+}
+.rk-level[data-snap="true"] .rk-level__fill {
+  transition: none;
+}
+.rk-level__xp {
+  margin: var(--rk-space-1) 0 0;
+  font-size: var(--rk-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--rk-color-text-muted);
+}
+
+@keyframes rk-level-pop {
+  from { transform: scale(1.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-level__badge,
+  .rk-level__fill {
+    animation: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$name": "Amber",
+  "$order": 2,
+  "$description": "Loud and playful: hot reds and oranges, chunky type, soft corners.",
+  "color": {
+    "bg": { "$value": "#1E0F0A", "$type": "color" },
+    "surface": { "$value": "#2E1710", "$type": "color" },
+    "surface-raised": { "$value": "#42210F", "$type": "color" },
+    "text": { "$value": "#FFF1DC", "$type": "color" },
+    "text-muted": { "$value": "#C9A68C", "$type": "color" },
+    "border": { "$value": "#5A2E1A", "$type": "color" },
+    "accent": { "$value": "#FF8A1F", "$type": "color" },
+    "on-accent": { "$value": "#2A1000", "$type": "color" },
+    "tier-mini": { "$value": "#C77DFF", "$type": "color" },
+    "tier-minor": { "$value": "#4CC9F0", "$type": "color" },
+    "tier-major": { "$value": "#B5E61D", "$type": "color" },
+    "tier-grand": { "$value": "#FFD60A", "$type": "color" },
+    "chest-body": { "$value": "#B3261E", "$type": "color" },
+    "chest-trim": { "$value": "#FFC93C", "$type": "color" },
+    "chest-dark": { "$value": "#3A0A07", "$type": "color" }
+  },
+  "font": {
+    "display": { "$value": "'Lilita One', sans-serif", "$type": "fontFamily" },
+    "body": { "$value": "'Nunito', sans-serif", "$type": "fontFamily" },
+    "display-tracking": { "$value": "0.01em", "$type": "dimension" }
+  },
+  "radius": {
+    "sm": { "$value": "8px", "$type": "dimension" },
+    "md": { "$value": "14px", "$type": "dimension" },
+    "lg": { "$value": "22px", "$type": "dimension" }
+  }
+}
