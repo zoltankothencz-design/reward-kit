@@ -1,0 +1,2 @@
+# One line ending everywhere, so scripts that read the source behave the same on every machine.
+* text=auto eol=lf
