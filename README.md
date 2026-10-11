@@ -116,6 +116,20 @@ What it does not show: four runs on three briefs are an anecdote, not a rate. Th
 the three finished templates needed a human correction for layout, and the third needed a change to a primitive. There is still no
 measured time for building a template by hand, so no speed-up is claimed.
 
+## Beyond the average: a Monte Carlo run
+
+```bash
+npm run simulate
+```
+
+The Economy tab gives an average. `npm run simulate` shows what that average hides: it plays 20,000 simulated players through
+1,000 spins of a made-up slot (bet EUR 2, start EUR 200, 95% RTP) and prints how they are spread. The expected-value maths says
+the average player ends with EUR 100; the simulation says 61% run out of money first and the median player ends with nothing,
+while a few percent win many times their stake. All numbers can be changed (`npm run simulate -- --bet 5 --spins 500`) and a
+seed makes a run repeatable. The game's prize table is invented, so read the output as an illustration of why an average is not
+enough, not as a statement about a real game. The unit tests check that, with a bottomless wallet, the simulation agrees with the
+expected-value maths.
+
 ## Adding a brand
 
 Copy `tokens/brands/aurum.json`, rename it, change the values, add its fonts to `index.html`, run `npm run tokens`.

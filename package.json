@@ -12,6 +12,7 @@
     "spec": "node scripts/build-motion-spec.mjs",
     "test": "vitest run",
     "test:motion": "node scripts/test-reduced-motion.mjs",
+    "simulate": "node scripts/simulate.mjs",
     "catalog": "node scripts/build-catalog.mjs",
     "template:new": "node scripts/new-template.mjs",
     "template:verify": "node scripts/verify-template.mjs",
