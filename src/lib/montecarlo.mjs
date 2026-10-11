@@ -64,8 +64,20 @@ export function simulate({ game = ILLUSTRATIVE_GAME, bet, spins, start, players,
   }
   ends.sort((a, b) => a - b);
   const at = (q) => ends[Math.floor(q * (players - 1))];
+  // Where the players ended, relative to what they started with.
+  const bucketOf = (balance) =>
+    balance < bet ? 0 : balance < start * 0.5 ? 1 : balance <= start ? 2 : balance <= start * 2 ? 3 : 4;
+  const counts = [0, 0, 0, 0, 0];
+  for (const e of ends) counts[bucketOf(e)]++;
   const rtp = rtpOf(game);
   return {
+    buckets: [
+      { label: "Ran out of money", share: counts[0] / players },
+      { label: "Under half the start", share: counts[1] / players },
+      { label: "Half to the full start", share: counts[2] / players },
+      { label: "Up to double the start", share: counts[3] / players },
+      { label: "More than double", share: counts[4] / players },
+    ],
     rtp,
     wagered: spins * bet,
     expectedEnd: start - spins * bet * (1 - rtp),

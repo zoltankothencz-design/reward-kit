@@ -3,7 +3,7 @@
 //   npm run simulate -- --bet 5 --spins 500 --start 100 --players 50000 --seed 7
 // Compare it with the expected-value model on the Economy tab: that one gives
 // the average, this one shows the spread around it. See the README.
-import { DEFAULTS, ILLUSTRATIVE_GAME, simulate } from "./lib/montecarlo.mjs";
+import { DEFAULTS, ILLUSTRATIVE_GAME, simulate } from "../src/lib/montecarlo.mjs";
 
 const args = process.argv.slice(2);
 const options = { ...DEFAULTS };

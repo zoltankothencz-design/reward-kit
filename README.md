@@ -128,7 +128,7 @@ the average player ends with EUR 100; the simulation says 61% run out of money f
 while a few percent win many times their stake. All numbers can be changed (`npm run simulate -- --bet 5 --spins 500`) and a
 seed makes a run repeatable. The game's prize table is invented, so read the output as an illustration of why an average is not
 enough, not as a statement about a real game. The unit tests check that, with a bottomless wallet, the simulation agrees with the
-expected-value maths.
+expected-value maths. The same simulation runs in the browser on the Economy tab, behind a button.
 
 ## Adding a brand
 

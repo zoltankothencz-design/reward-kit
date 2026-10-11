@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { BalanceChart } from "./BalanceChart";
+import { MonteCarlo } from "./MonteCarlo";
 import { DEFAULT_ECONOMY, PACKS, bestValuePack, coinsPerDollar, formatCoins, packCoins, simulate } from "../lib/economy";
 import type { EconomyInput } from "../lib/economy";
 
@@ -179,6 +180,8 @@ export function Economy() {
           </details>
         </div>
       </section>
+
+      <MonteCarlo />
 
       <section aria-labelledby="store-math">
         <h3 id="store-math">Store maths</h3>
