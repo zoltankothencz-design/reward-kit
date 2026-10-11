@@ -39,7 +39,11 @@
       "anticipate": { "$value": "{motion.duration.fast}", "$type": "duration" },
       "lid": { "$value": "{motion.duration.slow}", "$type": "duration" },
       "burst": { "$value": "{motion.duration.celebrate}", "$type": "duration" },
-      "count": { "$value": "{motion.duration.count}", "$type": "duration" }
+      "count": { "$value": "{motion.duration.count}", "$type": "duration" },
+      "coin-stagger": { "$value": "30ms", "$type": "duration" },
+      "spark-delay": { "$value": "120ms", "$type": "duration" },
+      "spark-stagger": { "$value": "70ms", "$type": "duration" },
+      "ray-spin": { "$value": "28000ms", "$type": "duration" }
     },
     "level": {
       "$description": "Level bar: the fill glides, the level badge pops when the level changes.",

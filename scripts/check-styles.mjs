@@ -28,15 +28,18 @@ const everywhere = [
   ["hard-coded colour", /\brgba?\(/],
   ["hard-coded font", /font-family\s*:\s*(?=[^\s;v])[^;]+/],
 ];
+// Durations must come from motion tokens, so the motion spec stays true.
+const componentCssOnly = [["hard-coded duration", /(?<![\w-])\d*\.?\d+m?s\b/]];
 const templateOnly = [
   ["motion in a template", /\banimation\s*:|\btransition\s*:|@keyframes/],
 ];
 
 for (const f of [...files("src/components"), ...files("src/templates")]) scan(f, everywhere);
+for (const f of files("src/components").filter((f) => f.endsWith(".css"))) scan(f, componentCssOnly);
 for (const f of files("src/templates")) scan(f, templateOnly);
 
 if (problems.length) {
   console.error(`Style check failed:\n  ${problems.join("\n  ")}`);
   process.exit(1);
 }
-console.log("styles: no hard-coded colours or fonts, no motion in templates");
+console.log("styles: no hard-coded colours, fonts or durations, no motion in templates");

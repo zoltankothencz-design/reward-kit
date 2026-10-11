@@ -58,12 +58,6 @@ p { margin: var(--rk-space-2) 0 0; }
   margin: 0 auto;
   padding: var(--rk-space-3) 0;
 }
-.toolbar__title {
-  font-family: var(--rk-font-display);
-  font-size: var(--rk-font-size-lg);
-  letter-spacing: var(--rk-font-display-tracking);
-  font-weight: 700;
-}
 .toolbar__brand { display: flex; align-items: center; gap: var(--rk-space-3); }
 .page__header p { color: var(--rk-color-text-muted); }
 

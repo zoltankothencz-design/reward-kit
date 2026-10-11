@@ -152,16 +152,16 @@
   animation: rk-chest-rays var(--t-burst) var(--rk-motion-easing-out) var(--burst-delay) backwards;
 }
 .rk-chest[data-open="true"] .rk-chest__rays-spin {
-  animation: rk-chest-spin 28s linear infinite;
+  animation: rk-chest-spin var(--rk-motion-chest-ray-spin) linear infinite;
 }
 .rk-chest[data-open="true"] .rk-chest__coin {
   animation: rk-chest-coin var(--t-burst) var(--rk-motion-easing-out)
-    calc(var(--burst-delay) + var(--i) * 30ms) backwards;
+    calc(var(--burst-delay) + var(--i) * var(--rk-motion-chest-coin-stagger)) backwards;
 }
 /* sparkles twinkle once during the burst, then rest */
 .rk-chest[data-open="true"] .rk-chest__spark {
   animation: rk-chest-spark var(--t-burst) var(--rk-motion-easing-out)
-    calc(var(--burst-delay) + 120ms + var(--i) * 70ms) backwards;
+    calc(var(--burst-delay) + var(--rk-motion-chest-spark-delay) + var(--i) * var(--rk-motion-chest-spark-stagger)) backwards;
 }
 
 /* --- claimed: the celebration calms down ----------------------------- */

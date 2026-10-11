@@ -2,6 +2,7 @@ import { useState } from "react";
 import { LevelBar } from "../components/LevelBar";
 import { RewardChest } from "../components/RewardChest";
 import type { Tier } from "../components/RewardChest";
+import { levelReward } from "../lib/economy";
 import { useLevelProgress } from "../lib/useLevelProgress";
 import "./templates.css";
 
@@ -13,7 +14,7 @@ export function LevelUp() {
   const [reward, setReward] = useState<LevelReward | null>(null);
 
   const { level, xp, snap, gain } = useLevelProgress(3, 60, (newLevel) =>
-    setReward({ level: newLevel, amount: newLevel * 500, tier: newLevel % 5 === 0 ? "major" : "minor" }),
+    setReward({ level: newLevel, amount: levelReward(newLevel), tier: newLevel % 5 === 0 ? "major" : "minor" }),
   );
 
   return (

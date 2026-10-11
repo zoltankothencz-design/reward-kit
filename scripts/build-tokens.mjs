@@ -6,29 +6,10 @@ import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { flatten, resolve } from "./lib/tokens.mjs";
+
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => JSON.parse(readFileSync(join(root, p), "utf8"));
-
-// { a: { b: { $value } } }  ->  Map("a.b" -> token)
-function flatten(node, path = [], out = new Map()) {
-  for (const [key, value] of Object.entries(node)) {
-    if (key.startsWith("$")) continue;
-    if (value && typeof value === "object" && "$value" in value) out.set([...path, key].join("."), value);
-    else flatten(value, [...path, key], out);
-  }
-  return out;
-}
-
-function resolve(tokens) {
-  const lookup = (value, seen = []) => {
-    const alias = typeof value === "string" && value.match(/^\{(.+)\}$/);
-    if (!alias) return value;
-    if (seen.includes(alias[1])) throw new Error(`Circular alias: ${[...seen, alias[1]].join(" -> ")}`);
-    if (!tokens.has(alias[1])) throw new Error(`Unknown alias: ${value}`);
-    return lookup(tokens.get(alias[1]).$value, [...seen, alias[1]]);
-  };
-  return new Map([...tokens].map(([name, t]) => [name, { ...t, $value: lookup(t.$value) }]));
-}
 
 const cssValue = (t) => (t.$type === "cubicBezier" ? `cubic-bezier(${t.$value.join(", ")})` : t.$value);
 const cssBlock = (selector, tokens) =>
@@ -113,6 +94,13 @@ export const chest = ${JSON.stringify(group("motion.chest.", ms), null, 2)} as c
 export const level = ${JSON.stringify(group("motion.level.", ms), null, 2)} as const;
 
 export const streak = ${JSON.stringify(group("motion.streak.", ms), null, 2)} as const;
+
+/** Every motion duration token by its full name, in milliseconds. */
+export const motionMs: Record<string, number> = ${JSON.stringify(
+  Object.fromEntries([...core].filter(([, t]) => t.$type === "duration").map(([n, t]) => [n, ms(t.$value)])),
+  null,
+  2,
+)};
 
 export const brands = ${JSON.stringify(brands.map(({ id, name, description }) => ({ id, name, description })), null, 2)} as const;
 

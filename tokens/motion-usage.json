@@ -1,0 +1,58 @@
+{
+  "$description": "Where each motion token is used. The spec page and docs/MOTION.md are generated from this file, and scripts/build-motion-spec.mjs fails if an entry does not match the code it points at. delay is a list of [token, factor] terms that are added up.",
+  "components": [
+    {
+      "name": "Reward chest",
+      "file": "src/components/RewardChest.css",
+      "trigger": "Player opens the chest (tap, or autoPlay from a template)",
+      "beats": [
+        { "beat": "Anticipate", "sequence": true, "what": "Whole chest squashes down, then springs back", "property": "transform", "duration": "motion.chest.anticipate", "easing": "standard", "delay": [] },
+        { "beat": "Lid", "sequence": true, "what": "Lid lifts with a small overshoot; inner glow and coin heap fade in", "property": "transform, opacity", "duration": "motion.chest.lid", "easing": "overshoot", "delay": [["motion.chest.anticipate", 1]] },
+        { "beat": "Burst", "sequence": true, "what": "Halo and rays grow from the centre", "property": "transform, opacity", "duration": "motion.chest.burst", "easing": "out", "delay": [["motion.chest.anticipate", 1], ["motion.chest.lid", 0.3]] },
+        { "beat": "Coins", "sequence": true, "what": "Seven coins fly out, one after another, then fall and fade", "property": "transform, opacity", "duration": "motion.chest.burst", "easing": "out", "delay": [["motion.chest.anticipate", 1], ["motion.chest.lid", 0.3]], "stagger": "motion.chest.coin-stagger" },
+        { "beat": "Sparkles", "sequence": true, "what": "Six sparkles twinkle once", "property": "transform, opacity", "duration": "motion.chest.burst", "easing": "out", "delay": [["motion.chest.anticipate", 1], ["motion.chest.lid", 0.3], ["motion.chest.spark-delay", 1]], "stagger": "motion.chest.spark-stagger" },
+        { "beat": "Count", "sequence": true, "what": "Amount counts up from zero", "property": "text", "duration": "motion.chest.count", "easing": "out", "delay": [["motion.chest.anticipate", 1], ["motion.chest.lid", 0.5]], "file": "src/components/RewardChest.tsx" },
+        { "beat": "Land", "sequence": true, "what": "Amount pops once when the count ends; Collect button appears", "property": "transform", "duration": "motion.duration.base", "easing": "overshoot", "delay": [["motion.chest.anticipate", 1], ["motion.chest.lid", 0.5], ["motion.chest.count", 1]] },
+        { "beat": "Rays turn", "what": "While open, the rays turn slowly. One full turn per duration, linear, repeats until collected", "property": "transform", "duration": "motion.chest.ray-spin", "easing": "linear", "delay": [] },
+        { "beat": "Hover", "what": "Idle chest lifts 3px", "property": "transform", "duration": "motion.duration.fast", "easing": "out", "delay": [] },
+        { "beat": "Collected", "what": "Rays, halo and glow fade; chest dims", "property": "opacity", "duration": "motion.duration.base", "easing": "standard", "delay": [] }
+      ]
+    },
+    {
+      "name": "Level bar",
+      "file": "src/components/LevelBar.css",
+      "trigger": "XP changes",
+      "beats": [
+        { "beat": "Fill", "what": "Bar glides to the new XP. On a level change it jumps to empty with no transition, then fills the rest", "property": "width", "duration": "motion.level.fill", "easing": "out", "delay": [] },
+        { "beat": "Level pop", "what": "Badge scales down from 135% when the level number changes", "property": "transform", "duration": "motion.level.pop", "easing": "overshoot", "delay": [] }
+      ]
+    },
+    {
+      "name": "Daily streak",
+      "file": "src/components/DailyStreak.css",
+      "trigger": "A day becomes today, or is collected",
+      "beats": [
+        { "beat": "Today", "what": "Today's tile settles from 108% once", "property": "transform", "duration": "motion.streak.pulse", "easing": "out", "delay": [] },
+        { "beat": "Check", "what": "Check mark draws itself on the collected tile", "property": "stroke-dashoffset", "duration": "motion.streak.check", "easing": "out", "delay": [] }
+      ]
+    },
+    {
+      "name": "Offer card",
+      "file": "src/components/OfferCard.css",
+      "trigger": "Hover, and Buy",
+      "beats": [
+        { "beat": "Hover", "what": "Card lifts 2px", "property": "transform", "duration": "motion.duration.fast", "easing": "out", "delay": [] },
+        { "beat": "Bought", "what": "Coin icons bounce once", "property": "transform", "duration": "motion.duration.slow", "easing": "overshoot", "delay": [] }
+      ]
+    },
+    {
+      "name": "Button",
+      "file": "src/styles/base.css",
+      "trigger": "Hover and press",
+      "beats": [
+        { "beat": "Hover", "what": "Lifts 1px", "property": "transform", "duration": "motion.duration.fast", "easing": "out", "delay": [] },
+        { "beat": "Press", "what": "Sinks 1px, faster than the hover", "property": "transform", "duration": "motion.duration.instant", "easing": "out", "delay": [] }
+      ]
+    }
+  ]
+}
