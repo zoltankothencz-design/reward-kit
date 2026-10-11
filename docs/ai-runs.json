@@ -87,5 +87,26 @@
     "review": [
       "Correct call: it did not fake a wheel. Whole agent run took 41 s. Showed the tooling had no clean way to stop; template:abandon was added because of this run."
     ]
+  },
+  {
+    "name": "DailyPrizeWheel",
+    "brief": "Daily prize wheel: a wheel with eight prize segments. The player taps Spin, the wheel turns and lands on one prize, and they collect it. One spin per day.",
+    "by": "Claude Sonnet 5.5",
+    "startedAt": "2026-10-11T16:50:51.427Z",
+    "attempts": [
+      {
+        "at": "2026-10-11T16:51:22.724Z",
+        "passed": true
+      }
+    ],
+    "gaps": [
+      "PrizeWheel's built-in button cannot be disabled or hidden from outside, and reads \"Spin again\" after a spin, so a one-spin-per-day rule cannot be shown to the player"
+    ],
+    "alsoChanged": [],
+    "finishedAt": "2026-10-11T16:51:22.725Z",
+    "seconds": 31,
+    "review": [
+      "Checked in the browser (Amber, desktop and 375 px): wheel lands on the chosen slice, the chest opens beside it (stacked on a phone), no overflow. Confirmed the agent's gap: the wheel's Spin again button stays clickable, so one spin per day is enforced in logic but cannot be shown to the player. The primitive needs a locked prop. The first (2026-10-11) run of this brief stopped for lack of a wheel; with PrizeWheel it was built in 0.5 min, 1 gate attempt, nothing changed outside the template."
+    ]
   }
 ]

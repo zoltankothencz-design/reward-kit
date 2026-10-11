@@ -8,6 +8,7 @@ import { OfferStore } from "./OfferStore";
 import { WeeklyChallenge } from "./WeeklyChallenge";
 import { ComebackBonus } from "./ComebackBonus";
 import { VipLadder } from "./VipLadder";
+import { DailyPrizeWheel } from "./DailyPrizeWheel";
 // @templates:imports
 
 export type TemplateEntry = {
@@ -54,6 +55,12 @@ export const TEMPLATES: TemplateEntry[] = [
     name: "Vip ladder",
     brief: "VIP ladder: players earn VIP points by buying coin packs. Show their VIP tier and their progress to the next tier. Buying a pack adds points, and reaching a new tier pays a chest.",
     Component: VipLadder,
+  },
+  {
+    id: "DailyPrizeWheel",
+    name: "Daily prize wheel",
+    brief: "Daily prize wheel: a wheel with eight prize segments. The player taps Spin, the wheel turns and lands on one prize, and they collect it. One spin per day.",
+    Component: DailyPrizeWheel,
   },
   // @templates:entries
 ];
