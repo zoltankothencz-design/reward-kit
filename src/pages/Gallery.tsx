@@ -2,10 +2,11 @@ import { useRef, useState } from "react";
 import { RewardChest } from "../components/RewardChest";
 import type { ChestState, RewardChestHandle, Tier } from "../components/RewardChest";
 import { LevelBar } from "../components/LevelBar";
+import { PrizeWheel } from "../components/PrizeWheel";
 import { OfferCard } from "../components/OfferCard";
 import { DailyStreak } from "../components/DailyStreak";
 import { TEMPLATES } from "../templates";
-import { DAILY_REWARDS } from "../lib/economy";
+import { DAILY_REWARDS, WHEEL_PRIZES, formatCoins, pickWheelPrize } from "../lib/economy";
 import { useLevelProgress } from "../lib/useLevelProgress";
 import { brands } from "../tokens/generated";
 import type { BrandId } from "../tokens/generated";
@@ -23,6 +24,7 @@ export function Gallery({ brand }: { brand: BrandId }) {
   const [state, setState] = useState<ChestState>("idle");
   const [streakClaimed, setStreakClaimed] = useState(2);
   const demoLevel = useLevelProgress(12, 45);
+  const [wheelTarget, setWheelTarget] = useState(() => pickWheelPrize(Math.random()));
   const trio = useRef<(RewardChestHandle | null)[]>([]);
 
   const amount = TIERS.find((t) => t.id === tier)!.amount;
@@ -82,6 +84,17 @@ export function Gallery({ brand }: { brand: BrandId }) {
               <div className="prim-card__offer">
                 <OfferCard name="Lucky bundle" coins={30_000} bonus={50} price="$7.99" badge="Most popular" featured endsInSeconds={7_200} />
               </div>
+            </div>
+            <div className="prim-card">
+              <h3>Prize wheel</h3>
+              <p className="muted">
+                The parent picks the prize with the economy helper and tells the wheel where to land. The wheel only turns and reports.
+              </p>
+              <PrizeWheel
+                segments={WHEEL_PRIZES.map((p) => ({ label: formatCoins(p.amount), tier: p.tier }))}
+                landOn={wheelTarget}
+                onLanded={() => setWheelTarget(pickWheelPrize(Math.random()))}
+              />
             </div>
             <div className="prim-card prim-card--wide">
               <h3>Daily streak</h3>

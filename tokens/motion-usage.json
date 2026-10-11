@@ -28,6 +28,15 @@
       ]
     },
     {
+      "name": "Prize wheel",
+      "file": "src/components/PrizeWheel.css",
+      "trigger": "Player taps Spin (or the parent calls spin)",
+      "beats": [
+        { "beat": "Spin", "what": "Wheel turns several full rounds and decelerates onto the chosen slice; with reduced motion it is on that slice at once", "property": "transform", "duration": "motion.wheel.spin", "easing": "out", "delay": [] },
+        { "beat": "Land", "what": "Winning slice flashes white once when the wheel stops", "property": "opacity", "duration": "motion.wheel.land", "easing": "out", "delay": [["motion.wheel.spin", 1]] }
+      ]
+    },
+    {
       "name": "Daily streak",
       "file": "src/components/DailyStreak.css",
       "trigger": "A day becomes today, or is collected",

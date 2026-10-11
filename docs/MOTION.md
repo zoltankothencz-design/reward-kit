@@ -51,6 +51,15 @@ Trigger: XP changes. Source: `src/components/LevelBar.css`.
 | Fill | Bar glides to the new XP. On a level change it jumps to empty with no transition, then fills the rest | width | 0 ms | 420 ms | out `cubic-bezier(0.16, 1, 0.3, 1)` | `motion.level.fill` | none |
 | Level pop | Badge scales down from 135% when the level number changes | transform | 0 ms | 900 ms | overshoot `cubic-bezier(0.34, 1.56, 0.64, 1)` | `motion.level.pop` | none |
 
+## Prize wheel
+
+Trigger: Player taps Spin (or the parent calls spin). Source: `src/components/PrizeWheel.css`.
+
+| Beat | What happens | Property | Starts at | Duration | Curve | Duration token | Start is the sum of |
+|---|---|---|---|---|---|---|---|
+| Spin | Wheel turns several full rounds and decelerates onto the chosen slice; with reduced motion it is on that slice at once | transform | 0 ms | 5000 ms | out `cubic-bezier(0.16, 1, 0.3, 1)` | `motion.wheel.spin` | none |
+| Land | Winning slice flashes white once when the wheel stops | opacity | 5000 ms | 900 ms | out `cubic-bezier(0.16, 1, 0.3, 1)` | `motion.wheel.land` | `motion.wheel.spin` |
+
 ## Daily streak
 
 Trigger: A day becomes today, or is collected. Source: `src/components/DailyStreak.css`.

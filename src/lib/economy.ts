@@ -1,6 +1,6 @@
 /* @helper
 name: economy
-use: Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), COMEBACK (chest and one-off offer), vipPoints(pack) with vipTierName(tier) and vipTierReward(tier), PACKS with packCoins(pack) and bestValuePack(), formatCoins(n).
+use: Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), COMEBACK (chest and one-off offer), vipPoints(pack) with vipTierName(tier) and vipTierReward(tier), PACKS with packCoins(pack) and bestValuePack(), WHEEL_PRIZES with pickWheelPrize(roll) and wheelExpectedValue(), formatCoins(n).
 rules: If a mechanic needs a new reward amount, add it here as a named constant or function with a comment, never inline in a template.
 */
 // The reward economy: every number the primitives and templates show comes
@@ -64,6 +64,34 @@ export const coinsPerDollar = (p: Pack) => packCoins(p) / p.price;
 /** The pack that gives the most coins per dollar. */
 export const bestValuePack = (packs: Pack[] = PACKS) =>
   packs.reduce((best, p) => (coinsPerDollar(p) > coinsPerDollar(best) ? p : best));
+
+// --- prize wheel --------------------------------------------------------------
+
+/** The eight slices of the daily prize wheel, clockwise from the top. weight is the chance in percent; they sum to 100.
+ *  Neighbouring slices have different tiers so the colours alternate. The big prize is rare (1%) on purpose. */
+export const WHEEL_PRIZES = [
+  { amount: 500, tier: "mini", weight: 24 },
+  { amount: 2_000, tier: "minor", weight: 12 },
+  { amount: 750, tier: "mini", weight: 20 },
+  { amount: 5_000, tier: "major", weight: 5 },
+  { amount: 1_000, tier: "mini", weight: 18 },
+  { amount: 3_000, tier: "minor", weight: 8 },
+  { amount: 600, tier: "mini", weight: 12 },
+  { amount: 25_000, tier: "grand", weight: 1 },
+] as const;
+
+/** Index of the prize for a roll from 0 (inclusive) to 1 (exclusive). Pass Math.random() in the app; the wheel itself never picks. */
+export const pickWheelPrize = (roll: number) => {
+  let edge = 0;
+  for (let i = 0; i < WHEEL_PRIZES.length; i++) {
+    edge += WHEEL_PRIZES[i].weight / 100;
+    if (roll < edge) return i;
+  }
+  return WHEEL_PRIZES.length - 1;
+};
+
+/** Average coins one spin pays, weighted by chance. */
+export const wheelExpectedValue = () => WHEEL_PRIZES.reduce((t, p) => t + (p.amount * p.weight) / 100, 0);
 
 // --- VIP ladder ---------------------------------------------------------------
 

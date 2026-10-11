@@ -97,6 +97,8 @@ export const chest = ${JSON.stringify(group("motion.chest.", ms), null, 2)} as c
 
 export const level = ${JSON.stringify(group("motion.level.", ms), null, 2)} as const;
 
+export const wheel = ${JSON.stringify(group("motion.wheel.", ms), null, 2)} as const;
+
 export const streak = ${JSON.stringify(group("motion.streak.", ms), null, 2)} as const;
 
 /** Every motion duration token by its full name, in milliseconds. */

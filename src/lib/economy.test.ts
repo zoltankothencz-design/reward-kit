@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   DAILY_REWARDS,
+  WHEEL_PRIZES,
+  pickWheelPrize,
+  wheelExpectedValue,
   DEFAULT_ECONOMY,
   PACKS,
   bestValuePack,
@@ -111,5 +114,22 @@ describe("simulate", () => {
     // 100 + 120 + 144 + 173 + 207 + 249 = 993 XP crosses six levels (1 to 7); 7 XP are left over
     expect(r.days[0].level).toBe(7);
     expect(r.days[0].levelCoins).toBe(levelReward(2) + levelReward(3) + levelReward(4) + levelReward(5) + levelReward(6) + levelReward(7));
+  });
+});
+
+describe("prize wheel", () => {
+  it("chances sum to 100 and neighbouring slices differ in tier", () => {
+    expect(WHEEL_PRIZES.reduce((t, p) => t + p.weight, 0)).toBe(100);
+    WHEEL_PRIZES.forEach((p, i) => expect(p.tier).not.toBe(WHEEL_PRIZES[(i + 1) % WHEEL_PRIZES.length].tier));
+  });
+  it("maps rolls to slices, first and last included", () => {
+    expect(pickWheelPrize(0)).toBe(0);
+    expect(pickWheelPrize(0.239)).toBe(0);
+    expect(pickWheelPrize(0.24)).toBe(1);
+    expect(pickWheelPrize(0.999)).toBe(7);
+  });
+  it("pays between 1,000 and 2,000 coins a spin on average", () => {
+    expect(wheelExpectedValue()).toBeGreaterThan(1_000);
+    expect(wheelExpectedValue()).toBeLessThan(2_000);
   });
 });

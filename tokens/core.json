@@ -50,6 +50,11 @@
       "fill": { "$value": "{motion.duration.slow}", "$type": "duration" },
       "pop": { "$value": "{motion.duration.celebrate}", "$type": "duration" }
     },
+    "wheel": {
+      "$description": "Prize wheel: one long decelerating spin, then the winning slice flashes.",
+      "spin": { "$value": "5000ms", "$type": "duration" },
+      "land": { "$value": "{motion.duration.celebrate}", "$type": "duration" }
+    },
     "streak": {
       "$description": "Daily streak: today's tile pulses once, the check mark draws itself.",
       "pulse": { "$value": "{motion.duration.celebrate}", "$type": "duration" },

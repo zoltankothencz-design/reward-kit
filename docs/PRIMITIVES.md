@@ -11,6 +11,7 @@ If a brief needs something that is not here, that is a gap to report, not someth
 | [DailyStreak](#dailystreak) | A row of rewards for consecutive days, with today marked and past days checked off. | Progress that is not day by day (use LevelBar). |
 | [LevelBar](#levelbar) | Progress toward a threshold, with the current step in a round badge. By default it shows a level and its XP. With max, unit and badgeLabel it shows any goal, for example 7 of 10 spins in a weekly challenge. | Time left (OfferCard has the countdown), a wallet balance, or a reward amount. |
 | [OfferCard](#offercard) | Something the player can buy: a coin pack or a bundle, with its price on the button. | Free rewards (use RewardChest) or progress (use LevelBar). |
+| [PrizeWheel](#prizewheel) | A wheel of prizes the player spins once. It lands on the slice the parent chose, then reports it. | A reward reveal on its own (that is RewardChest), or a way to decide the result. The wheel never picks the prize; it only shows the one it is told to land on. |
 | [RewardChest](#rewardchest) | The payoff moment. A reward the player has earned is revealed, counted up and collected. | Showing a price, a balance or progress. Not for something the player still has to pay for (that is OfferCard). |
 
 ## Coin
@@ -120,6 +121,31 @@ Props:
   onBuy?: () => void;
 ```
 
+## PrizeWheel
+
+Source: `src/components/PrizeWheel.tsx`
+
+**Use it for:** A wheel of prizes the player spins once. It lands on the slice the parent chose, then reports it.
+
+**Not for:** A reward reveal on its own (that is RewardChest), or a way to decide the result. The wheel never picks the prize; it only shows the one it is told to land on.
+
+**Rules:** Pass 2 to 12 segments, each with a short label and a tier that sets the slice colour (rising order mini, minor, major, grand). landOn is the index of the winning segment and must be set before the player taps Spin; pick it with the economy helper pickWheelPrize, never inside the wheel or the template. onLanded(index) fires when the wheel has stopped, so give the reward from there. After a spin, change landOn for the next one. With reduced motion the wheel is on the winning slice at once.
+
+```tsx
+<PrizeWheel segments={WHEEL_PRIZES.map((p) => ({ label: formatCoins(p.amount), tier: p.tier }))} landOn={3} onLanded={(i) => grant(WHEEL_PRIZES[i].amount)} />
+```
+
+Props:
+
+```ts
+  /** 2 to 12 slices, clockwise from the top */
+  segments: { label: string; tier: WheelTier }[];
+  /** index of the winning segment, set before the player spins */
+  landOn: number;
+  /** fires when the wheel has stopped, with the winning index */
+  onLanded?: (index: number) => void;
+```
+
 ## RewardChest
 
 Source: `src/components/RewardChest.tsx`
@@ -152,7 +178,7 @@ Data and logic a template may import from `src/lib`.
 
 Source: `src/lib/economy.ts`
 
-Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), COMEBACK (chest and one-off offer), vipPoints(pack) with vipTierName(tier) and vipTierReward(tier), PACKS with packCoins(pack) and bestValuePack(), formatCoins(n).
+Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), COMEBACK (chest and one-off offer), vipPoints(pack) with vipTierName(tier) and vipTierReward(tier), PACKS with packCoins(pack) and bestValuePack(), WHEEL_PRIZES with pickWheelPrize(roll) and wheelExpectedValue(), formatCoins(n).
 
 **Rules:** If a mechanic needs a new reward amount, add it here as a named constant or function with a comment, never inline in a template.
 

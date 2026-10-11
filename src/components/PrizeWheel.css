@@ -1,0 +1,100 @@
+/* PrizeWheel
+   Colours, fonts and radii come from brand tokens, durations and curves from
+   core motion tokens. The END state is a plain property (the wheel's angle);
+   the transition only describes how it gets there, so with reduced motion the
+   wheel simply is on the winning slice. */
+
+.rk-wheel {
+  display: grid;
+  justify-items: center;
+  gap: var(--rk-space-3);
+  text-align: center;
+}
+.rk-wheel__stage {
+  position: relative;
+  width: min(100%, 300px);
+}
+.rk-wheel__art {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+.rk-wheel__rotor {
+  transform-origin: 100px 110px;
+  transform: rotate(var(--angle, 0deg));
+  transition: transform var(--rk-motion-wheel-spin) var(--rk-motion-easing-out);
+}
+.rk-wheel[data-instant="true"] .rk-wheel__rotor {
+  transition: none;
+}
+
+.rk-stop--wheel-hi { stop-color: var(--gold-hi); }
+.rk-stop--wheel { stop-color: var(--gold); }
+.rk-stop--wheel-lo { stop-color: var(--gold-lo); }
+
+.rk-wheel__slice {
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 1.5;
+}
+.rk-wheel__slice[data-tier="mini"] { fill: var(--rk-color-tier-mini); }
+.rk-wheel__slice[data-tier="minor"] { fill: var(--rk-color-tier-minor); }
+.rk-wheel__slice[data-tier="major"] { fill: var(--rk-color-tier-major); }
+.rk-wheel__slice[data-tier="grand"] { fill: var(--rk-color-tier-grand); }
+
+.rk-wheel__label {
+  fill: white;
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 3;
+  paint-order: stroke;
+  font-family: var(--rk-font-display);
+  font-size: 15px;
+  letter-spacing: var(--rk-font-display-tracking);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.rk-wheel__rim {
+  fill: none;
+  stroke-width: 10;
+}
+.rk-wheel__rim-edge {
+  fill: none;
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 1.5;
+}
+.rk-wheel__hub {
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 1.5;
+}
+.rk-wheel__pointer {
+  fill: var(--gold-hi);
+  stroke: var(--rk-color-chest-dark);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+/* Flash on the winner: it is invisible by default and only comes FROM white. */
+.rk-wheel__flash {
+  fill: white;
+  opacity: 0;
+  pointer-events: none;
+}
+.rk-wheel[data-state="landed"] .rk-wheel__flash {
+  animation: rk-wheel-flash var(--rk-motion-wheel-land) var(--rk-motion-easing-out);
+}
+
+.rk-wheel__result {
+  margin: 0;
+  min-height: 1.5em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes rk-wheel-flash {
+  from { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-wheel__rotor { transition: none; }
+  .rk-wheel[data-state="landed"] .rk-wheel__flash { animation: none; }
+}
