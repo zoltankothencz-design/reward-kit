@@ -8,9 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 // Windows checkouts may use CRLF; the patterns below expect LF.
-const read = (p) => readFileSync(join(root, p), "utf8").replaceAll("
-", "
-");
+const read = (p) => readFileSync(join(root, p), "utf8").replace(/\r\n/g, "\n");
 const list = (dir, test) => readdirSync(join(root, dir)).filter(test).sort().map((f) => `${dir}/${f}`);
 
 // "/* @primitive\nname: X\nuse: ...\n*/"  ->  { name, use, not, rules, example: [] }
