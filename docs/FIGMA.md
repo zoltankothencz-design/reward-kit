@@ -7,7 +7,7 @@ File: https://www.figma.com/design/94Az9eq8RQ8ax5NWJ7hJJk (owner's drafts; ask f
 
 ## What is in the file
 
-- **100 variables.** 37 in `Core` (spacing, font sizes, every motion duration and curve) and 21 per brand (15 colours, 3 radii,
+- **102 variables.** 39 in `Core` (spacing, font sizes, every motion duration and curve) and 21 per brand (15 colours, 3 radii,
   2 font families, 1 letter-spacing value).
 - Every variable has a scope, so it only appears in the pickers where it makes sense, and a WEB code syntax that is the real CSS
   variable, for example `var(--rk-color-accent)`. Its description names the token it came from.
