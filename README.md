@@ -5,15 +5,16 @@ The brands (Aurum, Amber, Frost) are fictional. Built with Claude Code.
 
 ## Status
 
-All five phases are done. Phase 4 was tried by three agents that had never seen the code; what they did and what the trial exposed is below.
+All five phases are done, and a prize wheel was added afterwards because the cold trial showed the kit lacked one. Phase 4 was tried by agents that had never seen the code; what they did and what the trial exposed is below.
 
 | Phase | Content | State |
 |---|---|---|
 | 1 | Tokens, three brands, reward chest | done |
-| 2 | Level bar, offer card, daily streak, three templates | done |
+| 2 | Level bar, offer card, daily streak, first templates | done |
 | 3 | Motion spec page, reward economy calculator | done |
-| 4 | Skill and tooling that build a new mechanic from a brief, with measured runs | done, one trial of three briefs |
+| 4 | Skill and tooling that build a new mechanic from a brief, with measured runs | done, one trial of three briefs and one re-run |
 | 5 | Figma variables and brand sheet generated from the tokens | done (tokens and specimen only, no components) |
+| after | Prize wheel primitive, daily prize wheel template, automated reduced-motion test | done |
 
 ## Run it
 
@@ -24,17 +25,19 @@ npm run dev
 
 Opens on http://localhost:5183. Three tabs: Gallery, Motion spec, Economy.
 
+`npm run build` runs every check and the unit tests. `npm run test:motion` is separate because it needs Chrome or Edge installed (see Known limits).
+
 ## How it is organised
 
 - `tokens/core.json`: spacing, type scale and **motion** (durations, easing curves, the timing of every primitive). Shared by every brand.
 - `tokens/brands/*.json`: colour, fonts and corner radius. One file per brand.
 - `tokens/motion-usage.json`: which component uses which motion token, beat by beat.
-- `src/components/`: the primitives. `RewardChest`, `LevelBar`, `OfferCard`, `DailyStreak`, plus the shared `Coin` icon.
+- `src/components/`: the primitives. `RewardChest`, `PrizeWheel`, `LevelBar`, `OfferCard`, `DailyStreak`, plus the shared `Coin` icon.
 - `src/templates/`: screens made only of primitives plus the rule that connects them. `index.ts` is the registry the Gallery reads.
 - `.claude/skills/new-mechanic/SKILL.md`: the procedure an agent follows to build a new template from a brief.
 - `docs/PRIMITIVES.md`: every primitive and helper with its props, what it is for and what it is not for. Generated.
 - `docs/AI-RUNS.md`: one measured row per template built through the skill. Generated.
-- `src/lib/economy.ts`: the reward numbers (level curve, level rewards, daily rewards, store packs) and a 30-day player simulation.
+- `src/lib/economy.ts`: the reward numbers (level curve, level rewards, daily rewards, store packs, prize wheel slices and odds) and a 30-day player simulation.
 - `docs/MOTION.md`: the motion spec for engineers. Generated, do not edit by hand.
 - `figma/` and `docs/FIGMA.md`: scripts that build the Figma variables and brand sheet from the tokens, and what is in the file.
 
@@ -96,9 +99,20 @@ What the trial changed in the kit:
 - There was no clean way to stop on a gap. `template:abandon` was added.
 - A two-column layout helper was missing; the skill now maps the brief's words about position to layout classes.
 
-What it does not show: three briefs are an anecdote, not a rate. The agents could not look at their own work, and both finished
-templates needed a human correction for layout. There is still no measured time for building a template by hand, so no speed-up
-is claimed.
+### The re-run: wheel built, gap found
+
+After the wheel primitive existed, the same prize wheel brief was given to a fresh agent in a clean checkout. It built the template in
+0.5 minutes with one gate attempt and changed nothing outside the template and its registry entry. Looked at in the browser, it
+worked on desktop and a phone-width screen: the wheel stops on the chosen slice and the chest opens beside it.
+
+The agent reported one gap that the gates could not have found: the wheel's own button could not be locked, so "one spin per day"
+was enforced in code but invisible to the player. The owner added a `lockedLabel` prop to the wheel and the template now passes
+"Come back tomorrow". That change touched the primitive and one shared button style, so it is recorded as the owner's, not the
+agent's.
+
+What it does not show: four runs on three briefs are an anecdote, not a rate. The agents could not look at their own work. Two of
+the three finished templates needed a human correction for layout, and the third needed a change to a primitive. There is still no
+measured time for building a template by hand, so no speed-up is claimed.
 
 ## Adding a brand
 
@@ -117,11 +131,11 @@ this demo, not an industry benchmark.
 
 ## Known limits
 
-- Reduced motion has an automated check, `npm run test:motion`: it opens the gallery in Chrome or Edge with the setting emulated and fails if anything animates or an element misses its end state; a control run without the setting must show the motion. It needs a browser installed, so it is not part of `npm run build`. It covers the wheel, chest, level bar, daily streak and offer card (the coin and the buttons have no motion of their own beyond what these checks see).
+- Reduced motion has an automated check, `npm run test:motion`: it opens the gallery in Chrome or Edge with the setting emulated and fails if anything animates or an element misses its end state; a control run without the setting must show the motion. It needs a browser installed, so it is not part of `npm run build`, and on a machine without one it cannot run. It covers the wheel, chest, level bar, daily streak and offer card (the coin and the buttons have no motion of their own beyond what these checks see).
 - The style check is a text scan, not a CSS parser. It catches the usual slips, not every way to hard-code a value.
 - The motion spec check proves a file uses a token, not that it uses it for the beat the spec describes.
 - `motion.easing.in` is defined but no component uses it yet.
 - Fonts load from Google Fonts, not self-hosted.
-- Only the economy has automated tests. Components are checked by hand in the browser.
+- Automated tests cover the economy (13 unit tests) and reduced motion. Everything else about the components, including how they look, is checked by hand in the browser.
 - The times in the first four rows of `docs/AI-RUNS.md` were recorded before the clock was moved to the start of the procedure, so they understate the work. Later rows are comparable with each other, not with those.
 - No gate checks layout. A template can pass everything and still put things in the wrong place; only looking at it finds that.
