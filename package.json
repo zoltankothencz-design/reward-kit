@@ -1,7 +1,7 @@
 {
   "name": "reward-kit",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
@@ -15,7 +15,8 @@
     "template:new": "node scripts/new-template.mjs",
     "template:verify": "node scripts/verify-template.mjs",
     "template:abandon": "node scripts/abandon-template.mjs",
-    "template:review": "node scripts/review-template.mjs"
+    "template:review": "node scripts/review-template.mjs",
+    "figma": "node scripts/build-figma.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

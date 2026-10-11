@@ -5,7 +5,7 @@ The brands (Aurum, Amber, Frost) are fictional. Built with Claude Code.
 
 ## Status
 
-Phases 1 to 4 of 5 are done. Phase 4 was tried by three agents that had never seen the code; what they did and what the trial exposed is below.
+All five phases are done. Phase 4 was tried by three agents that had never seen the code; what they did and what the trial exposed is below.
 
 | Phase | Content | State |
 |---|---|---|
@@ -13,7 +13,7 @@ Phases 1 to 4 of 5 are done. Phase 4 was tried by three agents that had never se
 | 2 | Level bar, offer card, daily streak, three templates | done |
 | 3 | Motion spec page, reward economy calculator | done |
 | 4 | Skill and tooling that build a new mechanic from a brief, with measured runs | done, one trial of three briefs |
-| 5 | Figma library generated from the tokens | |
+| 5 | Figma variables and brand sheet generated from the tokens | done (tokens and specimen only, no components) |
 
 ## Run it
 
@@ -36,6 +36,7 @@ Opens on http://localhost:5183. Three tabs: Gallery, Motion spec, Economy.
 - `docs/AI-RUNS.md`: one measured row per template built through the skill. Generated.
 - `src/lib/economy.ts`: the reward numbers (level curve, level rewards, daily rewards, store packs) and a 30-day player simulation.
 - `docs/MOTION.md`: the motion spec for engineers. Generated, do not edit by hand.
+- `figma/` and `docs/FIGMA.md`: scripts that build the Figma variables and brand sheet from the tokens, and what is in the file.
 
 ## What the build enforces
 
