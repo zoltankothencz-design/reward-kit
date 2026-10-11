@@ -6,6 +6,8 @@ import { DailyBonus } from "./DailyBonus";
 import { LevelUp } from "./LevelUp";
 import { OfferStore } from "./OfferStore";
 import { WeeklyChallenge } from "./WeeklyChallenge";
+import { ComebackBonus } from "./ComebackBonus";
+import { VipLadder } from "./VipLadder";
 // @templates:imports
 
 export type TemplateEntry = {
@@ -40,6 +42,18 @@ export const TEMPLATES: TemplateEntry[] = [
     name: "Weekly challenge",
     brief: "Weekly challenge: spin 50 times this week to open a chest. Show the progress, and let the player start the next week after collecting.",
     Component: WeeklyChallenge,
+  },
+  {
+    id: "ComebackBonus",
+    name: "Comeback bonus",
+    brief: "Comeback bonus: a player returns after a week away. Welcome them back with a chest they can open, and beside it one special coin offer that expires in 30 minutes.",
+    Component: ComebackBonus,
+  },
+  {
+    id: "VipLadder",
+    name: "Vip ladder",
+    brief: "VIP ladder: players earn VIP points by buying coin packs. Show their VIP tier and their progress to the next tier. Buying a pack adds points, and reaching a new tier pays a chest.",
+    Component: VipLadder,
   },
   // @templates:entries
 ];

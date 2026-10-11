@@ -2,9 +2,13 @@
 //   npm run template:new -- WeeklyChallenge "Spin 10 times this week to open a chest" --by "agent name"
 // Creates src/templates/<Name>.tsx from a skeleton, lists it in the registry
 // (so it shows in the Gallery at once) and opens a run record.
+//
+// It refuses to start on uncommitted changes. That keeps the measurement
+// honest: everything done for this brief happens after the clock starts, and
+// "also changed" can simply list what differs from the last commit.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { dirtyFiles, loadRuns, root, saveRuns } from "./lib/runs.mjs";
+import { changedFiles, loadRuns, root, saveRuns } from "./lib/runs.mjs";
 
 const args = process.argv.slice(2);
 const byAt = args.indexOf("--by");
@@ -18,8 +22,9 @@ const fail = (message) => {
 if (!name || !brief) fail('usage: npm run template:new -- <PascalCaseName> "<brief>" --by "<who>"');
 if (!/^[A-Z][A-Za-z0-9]+$/.test(name)) fail(`"${name}" must be PascalCase, letters and digits only`);
 
-// Snapshot of what was already changed, taken before this script writes anything.
-const before = dirtyFiles();
+const dirty = changedFiles();
+if (dirty.length)
+  fail(`there are uncommitted changes:\n  ${dirty.join("\n  ")}\nCommit or discard them first. Start the run before you edit anything for this brief.`);
 
 const file = join(root, `src/templates/${name}.tsx`);
 if (existsSync(file)) fail(`src/templates/${name}.tsx already exists`);
@@ -55,8 +60,9 @@ registry = registry
 writeFileSync(registryPath, registry);
 
 const runs = loadRuns();
-runs.push({ name, brief, by, startedAt: new Date().toISOString(), attempts: [], before });
+runs.push({ name, brief, by, startedAt: new Date().toISOString(), attempts: [] });
 saveRuns(runs);
 
 console.log(`template:new  src/templates/${name}.tsx created and registered. The clock is running.`);
 console.log(`Next: read docs/PRIMITIVES.md, fill in the template, then run: npm run template:verify -- ${name}`);
+console.log(`If the primitives cannot serve the brief: npm run template:abandon -- ${name} --gap "<what is missing>"`);

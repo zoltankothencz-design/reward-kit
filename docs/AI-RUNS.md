@@ -2,11 +2,19 @@
 
 Generated from `docs/ai-runs.json` by the template scripts. Do not edit by hand.
 
-Each row is one template built from a brief. The clock starts at `npm run template:new` and stops at the first
-`npm run template:verify` that passes every gate, so it includes thinking time. "Gate attempts" counts verify runs;
-1 means it passed first time. "Also changed" lists files touched outside the template itself: an empty cell means the
-brief was met by arranging primitives only.
+Each row is one template started from a brief.
 
-| Template | Brief | Built by | Minutes | Gate attempts | First failed gate | Also changed | Gaps reported |
-|---|---|---|---|---|---|---|---|
-| WeeklyChallenge | Weekly challenge: spin 50 times this week to open a chest. Show the progress, and let the player start the next week after collecting. | Claude Opus 5.5 (wrote the kit, dry run) | 0.4 | 1 |  | src/lib/economy.ts |  |
+- **Result**: minutes from `npm run template:new` to the first `npm run template:verify` that passed every gate, or
+  "stopped, gap reported" when the builder found the primitives could not serve the brief and said so.
+- **Gate attempts**: how many times verify ran. 1 means it passed first time.
+- **Also changed**: files changed besides the template and its registry entry. Empty means the brief was met by
+  arranging primitives only.
+- **Owner review**: what a person found when looking at the result in the browser. The gates cannot see layout,
+  so this column is where their blind spots show.
+
+| Template | Brief | Built by | Result | Gate attempts | First failed gate | Also changed | Gaps reported | Owner review |
+|---|---|---|---|---|---|---|---|---|
+| WeeklyChallenge | Weekly challenge: spin 50 times this week to open a chest. Show the progress, and let the player start the next week after collecting. | Claude Opus 5.5 (wrote the kit, dry run) | 0.4 min | 1 |  | src/lib/economy.ts |  | Built by the kit's author as a dry run of the tooling. Not evidence that a newcomer succeeds. |
+| ComebackBonus | Comeback bonus: a player returns after a week away. Welcome them back with a chest they can open, and beside it one special coin offer that expires in 30 minutes. | Claude Sonnet 5.5 (cold agent) | 0.4 min | 2 | unfinished |  |  | Brief says the offer sits beside the chest; the result stacked them and the offer badge overlapped the chest's Open button. No gate can see that. Owner changed one class to the new rk-template__pair helper. The agent edited economy.ts before starting the clock, so the time and the empty 'also changed' cell understate its work (it said so itself); whole agent run took 68 s. template:new now refuses a dirty tree. |
+| VipLadder | VIP ladder: players earn VIP points by buying coin packs. Show their VIP tier and their progress to the next tier. Buying a pack adds points, and reaching a new tier pays a chest. | Claude Sonnet 5.5 (cold agent) | 0.5 min | 2 | unfinished | src/lib/economy.ts |  | Rule and numbers correct: 80 + 300 points land on tier 4 with 16 of 173, as worked out by hand. The chest appeared below the three packs, out of sight after a purchase; owner moved the stage above the packs. Whole agent run took 73 s. |
+| DailyPrizeWheel | Daily prize wheel: a wheel with eight prize segments. The player taps Spin, the wheel turns and lands on one prize, and they collect it. One spin per day. | Claude Sonnet 5.5 (cold agent) | stopped, gap reported | 1 | unfinished |  | No primitive draws or rotates a segmented wheel that lands on a chosen segment | Correct call: it did not fake a wheel. Whole agent run took 41 s. Showed the tooling had no clean way to stop; template:abandon was added because of this run. |

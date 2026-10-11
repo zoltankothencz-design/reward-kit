@@ -5,14 +5,14 @@ The brands (Aurum, Amber, Frost) are fictional. Built with Claude Code.
 
 ## Status
 
-Phases 1 to 3 of 5 are done. Phase 4 is built and tried once by its author; it still needs a trial by an agent that has never seen the code.
+Phases 1 to 4 of 5 are done. Phase 4 was tried by three agents that had never seen the code; what they did and what the trial exposed is below.
 
 | Phase | Content | State |
 |---|---|---|
 | 1 | Tokens, three brands, reward chest | done |
 | 2 | Level bar, offer card, daily streak, three templates | done |
 | 3 | Motion spec page, reward economy calculator | done |
-| 4 | Skill and tooling that build a new mechanic from a brief, with measured runs | built, cold trial pending |
+| 4 | Skill and tooling that build a new mechanic from a brief, with measured runs | done, one trial of three briefs |
 | 5 | Figma library generated from the tokens | |
 
 ## Run it
@@ -68,7 +68,36 @@ template and any reported gap are written to `docs/AI-RUNS.md` by the scripts, n
 When a brief needs something no primitive does, the rule is to report the gap (`--gap "..."`), not to build it inside the
 template. A list of gaps is how the system's owner learns which primitive to build next.
 
+If no honest version can be built, `npm run template:abandon -- Name --gap "..."` removes the unfinished file and closes the run
+with the gap on record. After looking at a result in the browser, `npm run template:review -- Name "..."` adds the owner's note
+to the run.
+
 An agent is pointed at `.claude/skills/new-mechanic/SKILL.md`, which holds the same procedure with the rules spelled out.
+
+### The cold trial
+
+Three agents (Claude Sonnet 5.5), each in its own clean checkout, each given only a brief and told to follow the skill. None saw
+how the kit was built. They could not open a browser. Full rows are in `docs/AI-RUNS.md`.
+
+| Brief | What happened | What the owner found afterwards |
+|---|---|---|
+| Comeback bonus: a chest, and beside it an offer that expires in 30 minutes | Built, every gate passed | The two were stacked, not side by side, and a badge overlapped a button. No gate can see layout. Fixed by one class change, after adding a two-column layout helper the kit was missing. |
+| VIP ladder: buying packs earns points, a new tier pays a chest | Built, every gate passed, numbers correct | The chest appeared below the packs, out of sight after a purchase. Moved up. |
+| Daily prize wheel with eight segments | Stopped and reported the gap: no primitive draws or turns a wheel | Correct call. It did not fake a wheel out of other parts. |
+
+Whole runs took 41 to 73 seconds each, reading included.
+
+What the trial changed in the kit:
+
+- The repository did not build from a fresh clone (a missing folder, and line endings on Windows). Fixed.
+- The clock used to start after the planning step, and one agent edited a file before starting it, so the first measured times
+  cover only writing and verifying. `template:new` is now the first step and refuses a tree with uncommitted changes.
+- There was no clean way to stop on a gap. `template:abandon` was added.
+- A two-column layout helper was missing; the skill now maps the brief's words about position to layout classes.
+
+What it does not show: three briefs are an anecdote, not a rate. The agents could not look at their own work, and both finished
+templates needed a human correction for layout. There is still no measured time for building a template by hand, so no speed-up
+is claimed.
 
 ## Adding a brand
 
@@ -93,5 +122,5 @@ this demo, not an industry benchmark.
 - `motion.easing.in` is defined but no component uses it yet.
 - Fonts load from Google Fonts, not self-hosted.
 - Only the economy has automated tests. Components are checked by hand in the browser.
-- `docs/AI-RUNS.md` has one row so far, and it was built by the kit's author, who already knew every rule. It shows the tooling works, not that a newcomer succeeds. There is no measured "before" time for building a template by hand, so no speed-up is claimed.
-- The "also changed" column compares file hashes against the moment `template:new` ran; it cannot tell who made a change.
+- The times in the first four rows of `docs/AI-RUNS.md` were recorded before the clock was moved to the start of the procedure, so they understate the work. Later rows are comparable with each other, not with those.
+- No gate checks layout. A template can pass everything and still put things in the wrong place; only looking at it finds that.

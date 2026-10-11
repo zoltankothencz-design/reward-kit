@@ -152,7 +152,7 @@ Data and logic a template may import from `src/lib`.
 
 Source: `src/lib/economy.ts`
 
-Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), PACKS with packCoins(pack) and bestValuePack(), formatCoins(n).
+Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), COMEBACK (chest and one-off offer), vipPoints(pack) with vipTierName(tier) and vipTierReward(tier), PACKS with packCoins(pack) and bestValuePack(), formatCoins(n).
 
 **Rules:** If a mechanic needs a new reward amount, add it here as a named constant or function with a comment, never inline in a template.
 

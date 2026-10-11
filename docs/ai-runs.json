@@ -14,6 +14,78 @@
       "src/lib/economy.ts"
     ],
     "finishedAt": "2026-10-11T16:17:21.145Z",
-    "seconds": 26
+    "seconds": 26,
+    "review": [
+      "Built by the kit's author as a dry run of the tooling. Not evidence that a newcomer succeeds."
+    ]
+  },
+  {
+    "name": "ComebackBonus",
+    "brief": "Comeback bonus: a player returns after a week away. Welcome them back with a chest they can open, and beside it one special coin offer that expires in 30 minutes.",
+    "by": "Claude Sonnet 5.5 (cold agent)",
+    "startedAt": "2026-10-11T16:23:35.200Z",
+    "attempts": [
+      {
+        "at": "2026-10-11T16:23:45.580Z",
+        "passed": false,
+        "failedGate": "unfinished"
+      },
+      {
+        "at": "2026-10-11T16:24:01.003Z",
+        "passed": true
+      }
+    ],
+    "alsoChanged": [],
+    "finishedAt": "2026-10-11T16:24:01.004Z",
+    "seconds": 26,
+    "review": [
+      "Brief says the offer sits beside the chest; the result stacked them and the offer badge overlapped the chest's Open button. No gate can see that. Owner changed one class to the new rk-template__pair helper. The agent edited economy.ts before starting the clock, so the time and the empty 'also changed' cell understate its work (it said so itself); whole agent run took 68 s. template:new now refuses a dirty tree."
+    ]
+  },
+  {
+    "name": "VipLadder",
+    "brief": "VIP ladder: players earn VIP points by buying coin packs. Show their VIP tier and their progress to the next tier. Buying a pack adds points, and reaching a new tier pays a chest.",
+    "by": "Claude Sonnet 5.5 (cold agent)",
+    "startedAt": "2026-10-11T16:23:34.150Z",
+    "attempts": [
+      {
+        "at": "2026-10-11T16:23:45.721Z",
+        "passed": false,
+        "failedGate": "unfinished"
+      },
+      {
+        "at": "2026-10-11T16:24:05.871Z",
+        "passed": true
+      }
+    ],
+    "alsoChanged": [
+      "src/lib/economy.ts"
+    ],
+    "finishedAt": "2026-10-11T16:24:05.871Z",
+    "seconds": 32,
+    "review": [
+      "Rule and numbers correct: 80 + 300 points land on tier 4 with 16 of 173, as worked out by hand. The chest appeared below the three packs, out of sight after a purchase; owner moved the stage above the packs. Whole agent run took 73 s."
+    ]
+  },
+  {
+    "name": "DailyPrizeWheel",
+    "brief": "Daily prize wheel: a wheel with eight prize segments. The player taps Spin, the wheel turns and lands on one prize, and they collect it. One spin per day.",
+    "by": "Claude Sonnet 5.5 (cold agent)",
+    "startedAt": "2026-10-11T16:23:26.631Z",
+    "attempts": [
+      {
+        "at": "2026-10-11T16:23:30.771Z",
+        "passed": false,
+        "failedGate": "unfinished"
+      }
+    ],
+    "gaps": [
+      "No primitive draws or rotates a segmented wheel that lands on a chosen segment"
+    ],
+    "alsoChanged": [],
+    "abandonedAt": "2026-10-11T16:27:28.335Z",
+    "review": [
+      "Correct call: it did not fake a wheel. Whole agent run took 41 s. Showed the tooling had no clean way to stop; template:abandon was added because of this run."
+    ]
   }
 ]

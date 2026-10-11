@@ -7,6 +7,8 @@
    .rk-template__row     children side by side, centred, wrapping
    .rk-template__stack   children in a centred column
    .rk-template__grid    three equal columns that become one on a phone
+   .rk-template__pair    two things side by side, centred on each other,
+                         one above the other on a phone
    .rk-template__stage   a reserved area, so the panel does not jump when a
                          chest appears in it
    .rk-template__hint    one quiet line of helper text */
@@ -55,6 +57,14 @@
   width: 100%;
   padding-top: var(--rk-space-3);
 }
+.rk-template__pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--rk-space-8);
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
 .rk-template__stage {
   display: grid;
   place-items: center;
@@ -64,5 +74,6 @@
 
 @media (max-width: 760px) {
   .rk-template { padding-inline: var(--rk-space-3); }
-  .rk-template__grid { grid-template-columns: minmax(0, 1fr); }
+  .rk-template__grid,
+  .rk-template__pair { grid-template-columns: minmax(0, 1fr); }
 }

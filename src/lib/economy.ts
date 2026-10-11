@@ -1,6 +1,6 @@
 /* @helper
 name: economy
-use: Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), PACKS with packCoins(pack) and bestValuePack(), formatCoins(n).
+use: Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), COMEBACK (chest and one-off offer), vipPoints(pack) with vipTierName(tier) and vipTierReward(tier), PACKS with packCoins(pack) and bestValuePack(), formatCoins(n).
 rules: If a mechanic needs a new reward amount, add it here as a named constant or function with a comment, never inline in a template.
 */
 // The reward economy: every number the primitives and templates show comes
@@ -24,6 +24,17 @@ export const DAILY_REWARDS = [500, 750, 1_000, 1_500, 2_500, 4_000, 12_500] as c
 /** Weekly challenge: spins needed in a week, and the coins its chest pays.
  *  5,000 is two days of the bigger daily rewards: worth a week of play, small next to the day-7 bonus. */
 export const WEEKLY_CHALLENGE = { goal: 50, reward: 5_000 } as const;
+
+/** Comeback bonus for a player back after DAYS_AWAY days: a free chest, plus one coin offer open for OFFER_MINUTES.
+ *  The chest (3,000) is about what four daily rewards pay, so it feels like the missed days handed back.
+ *  The offer is 5,000 base coins at the Starter price with +100% bonus, so it is clearly the best deal in the
+ *  store, which is why it is rare and short. It is kept out of PACKS so the store and the simulation are unchanged. */
+export const COMEBACK = {
+  daysAway: 7,
+  chestCoins: 3_000,
+  offerMinutes: 30,
+  offer: { name: "Welcome back pack", price: 1.99, baseCoins: 5_000, bonus: 100 },
+} as const;
 
 export const formatCoins = (n: number) => new Intl.NumberFormat("en-US").format(Math.round(n));
 
@@ -53,6 +64,23 @@ export const coinsPerDollar = (p: Pack) => packCoins(p) / p.price;
 /** The pack that gives the most coins per dollar. */
 export const bestValuePack = (packs: Pack[] = PACKS) =>
   packs.reduce((best, p) => (coinsPerDollar(p) > coinsPerDollar(best) ? p : best));
+
+// --- VIP ladder ---------------------------------------------------------------
+
+/** VIP points earned per dollar spent on a pack: $1.99 gives 20, $29.99 gives 300. */
+export const VIP_POINTS_PER_DOLLAR = 10;
+
+/** VIP points a pack earns. */
+export const vipPoints = (p: Pack) => Math.round(p.price * VIP_POINTS_PER_DOLLAR);
+
+/** Names of the VIP tiers, lowest first. Tier 1 is the first entry. */
+export const VIP_TIER_NAMES = ["Bronze", "Silver", "Gold", "Platinum", "Diamond"] as const;
+
+/** Name for a VIP tier number; tiers past the list keep the top name. */
+export const vipTierName = (tier: number) => VIP_TIER_NAMES[Math.min(tier, VIP_TIER_NAMES.length) - 1];
+
+/** Coins paid for reaching VIP `tier`. 5x the level reward: tiers cost real money, levels are free. */
+export const vipTierReward = (tier: number) => tier * 2_500;
 
 // --- simulation -------------------------------------------------------------
 

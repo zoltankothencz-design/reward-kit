@@ -1,12 +1,13 @@
 // Runs every build gate for a template and records the attempt.
 //   npm run template:verify -- WeeklyChallenge
-//   npm run template:verify -- WeeklyChallenge --gap "No primitive shows a countdown outside an offer"
-// The first passing run stops the clock. --gap adds a note to the run about
-// something the primitives could not do; it can be repeated on later runs.
+//   npm run template:verify -- WeeklyChallenge --gap "No layout helper puts two primitives side by side"
+// The first passing run stops the clock. --gap adds a note about something
+// the primitives could not do; use it when you still delivered a template.
+// If you could not deliver one at all, use template:abandon instead.
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { dirtyFiles, loadRuns, root, saveRuns } from "./lib/runs.mjs";
+import { changedFiles, findRun, loadRuns, root, saveRuns } from "./lib/runs.mjs";
 
 const args = process.argv.slice(2);
 const gapAt = args.indexOf("--gap");
@@ -14,11 +15,7 @@ const gap = gapAt >= 0 ? args.splice(gapAt, 2)[1] : null;
 const [name] = args;
 
 const runs = loadRuns();
-const run = runs.findLast((r) => r.name === name);
-if (!run) {
-  console.error(`template:verify failed: no open run for "${name}". Start one with npm run template:new.`);
-  process.exit(1);
-}
+const run = findRun(runs, name, "template:verify");
 if (gap) run.gaps = [...(run.gaps ?? []), gap];
 
 // The same gates as `npm run build`, one at a time so the failing one is named.
@@ -32,15 +29,11 @@ const GATES = [
   ["bundle", "npx vite build --logLevel error"],
 ];
 
-const problems = [];
-const source = readFileSync(join(root, `src/templates/${name}.tsx`), "utf8");
-if (source.includes("TODO")) problems.push("the template still contains TODO");
-
 let failedGate = null;
 let output = "";
-if (problems.length) {
-  failedGate = "todo";
-  output = problems.join("\n");
+if (readFileSync(join(root, `src/templates/${name}.tsx`), "utf8").includes("TODO")) {
+  failedGate = "unfinished";
+  output = "The template still contains TODO. Fill it in, then verify again.";
 } else {
   for (const [gate, command] of GATES) {
     const result = spawnSync(command, { cwd: root, shell: true, encoding: "utf8" });
@@ -53,20 +46,17 @@ if (problems.length) {
   }
 }
 
-// What changed since template:new, besides the template and its registry
-// entry? An empty list means the brief was met by arranging primitives only.
+// What differs from the last commit besides the template and its registry
+// entry? template:new only starts on a clean tree, so this is everything done
+// for this brief. An empty list means it was met by arranging primitives only.
 const expected = [`src/templates/${name}.tsx`, "src/templates/index.ts", "docs/"];
-const before = run.before ?? {};
-run.alsoChanged = Object.entries(dirtyFiles())
-  .filter(([file, hash]) => before[file] !== hash && !expected.some((e) => file.startsWith(e)))
-  .map(([file]) => file);
+run.alsoChanged = changedFiles().filter((file) => !expected.some((e) => file.startsWith(e)));
 
 const passed = failedGate === null;
 run.attempts.push({ at: new Date().toISOString(), passed, ...(passed ? {} : { failedGate }) });
 if (passed && !run.finishedAt) {
   run.finishedAt = new Date().toISOString();
   run.seconds = Math.round((Date.parse(run.finishedAt) - Date.parse(run.startedAt)) / 1000);
-  delete run.before; // only needed while the run is open
 }
 saveRuns(runs);
 

@@ -13,7 +13,9 @@
     "test": "vitest run",
     "catalog": "node scripts/build-catalog.mjs",
     "template:new": "node scripts/new-template.mjs",
-    "template:verify": "node scripts/verify-template.mjs"
+    "template:verify": "node scripts/verify-template.mjs",
+    "template:abandon": "node scripts/abandon-template.mjs",
+    "template:review": "node scripts/review-template.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",
