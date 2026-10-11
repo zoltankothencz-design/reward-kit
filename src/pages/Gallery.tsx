@@ -25,6 +25,8 @@ export function Gallery({ brand }: { brand: BrandId }) {
   const [streakClaimed, setStreakClaimed] = useState(2);
   const demoLevel = useLevelProgress(12, 45);
   const [wheelTarget, setWheelTarget] = useState(() => pickWheelPrize(Math.random()));
+  const [wheelDaily, setWheelDaily] = useState(false);
+  const [wheelUsed, setWheelUsed] = useState(false);
   const trio = useRef<(RewardChestHandle | null)[]>([]);
 
   const amount = TIERS.find((t) => t.id === tier)!.amount;
@@ -88,13 +90,29 @@ export function Gallery({ brand }: { brand: BrandId }) {
             <div className="prim-card">
               <h3>Prize wheel</h3>
               <p className="muted">
-                The parent picks the prize with the economy helper and tells the wheel where to land. The wheel only turns and reports.
+                The parent picks the prize with the economy helper and tells the wheel where to land. The wheel only turns and reports. Switch on the daily limit to see the locked state; the Daily prize wheel template below uses it.
               </p>
               <PrizeWheel
                 segments={WHEEL_PRIZES.map((p) => ({ label: formatCoins(p.amount), tier: p.tier }))}
                 landOn={wheelTarget}
-                onLanded={() => setWheelTarget(pickWheelPrize(Math.random()))}
+                onLanded={() => {
+                  setWheelTarget(pickWheelPrize(Math.random()));
+                  setWheelUsed(true);
+                }}
+                lockedLabel={wheelDaily && wheelUsed ? "Come back tomorrow" : undefined}
               />
+              <div className="prim-card__buttons">
+                <button
+                  className="rk-button rk-button--quiet"
+                  aria-pressed={wheelDaily}
+                  onClick={() => {
+                    setWheelDaily((d) => !d);
+                    setWheelUsed(false);
+                  }}
+                >
+                  {wheelDaily ? "One spin a day: on" : "One spin a day: off"}
+                </button>
+              </div>
             </div>
             <div className="prim-card prim-card--wide">
               <h3>Daily streak</h3>
