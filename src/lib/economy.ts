@@ -1,3 +1,8 @@
+/* @helper
+name: economy
+use: Every reward number. Import from here instead of typing amounts: xpForLevel(level), levelReward(level), DAILY_REWARDS (seven daily amounts), WEEKLY_CHALLENGE (goal and reward), PACKS with packCoins(pack) and bestValuePack(), formatCoins(n).
+rules: If a mechanic needs a new reward amount, add it here as a named constant or function with a comment, never inline in a template.
+*/
 // The reward economy: every number the primitives and templates show comes
 // from here, and `simulate` plays a player through a month to show whether
 // the numbers hold together.
@@ -15,6 +20,10 @@ export const levelReward = (level: number) => level * 500;
 
 /** Coins for each of the seven daily-streak days. Day 7 is the bonus day. */
 export const DAILY_REWARDS = [500, 750, 1_000, 1_500, 2_500, 4_000, 12_500] as const;
+
+/** Weekly challenge: spins needed in a week, and the coins its chest pays.
+ *  5,000 is two days of the bigger daily rewards: worth a week of play, small next to the day-7 bonus. */
+export const WEEKLY_CHALLENGE = { goal: 50, reward: 5_000 } as const;
 
 export const formatCoins = (n: number) => new Intl.NumberFormat("en-US").format(Math.round(n));
 

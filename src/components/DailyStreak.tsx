@@ -1,3 +1,10 @@
+/* @primitive
+name: DailyStreak
+use: A row of rewards for consecutive days, with today marked and past days checked off.
+not: Progress that is not day by day (use LevelBar).
+rules: It holds no state of its own about days: pass claimed (how many days are collected) and canClaim (is today still waiting), and update them in onClaim. The last day is shown as the bonus day. Use DAILY_REWARDS from the economy helper for the amounts.
+example: <DailyStreak rewards={DAILY_REWARDS} claimed={3} canClaim onClaim={(day) => {}} />
+*/
 import { useState } from "react";
 import { Coin } from "./Coin";
 import { formatCoins } from "../lib/economy";

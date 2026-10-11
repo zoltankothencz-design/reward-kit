@@ -118,9 +118,12 @@ p { margin: var(--rk-space-2) 0 0; }
 
 .templates {
   display: grid;
-  gap: var(--rk-space-8);
+  gap: var(--rk-space-12);
   margin-top: var(--rk-space-6);
 }
+.templates__item { display: grid; gap: var(--rk-space-3); }
+.templates__brief { margin: 0; color: var(--rk-color-text-muted); }
+.templates__brief .field__label { margin-right: var(--rk-space-2); }
 
 /* --- spec table ------------------------------------------------------- */
 

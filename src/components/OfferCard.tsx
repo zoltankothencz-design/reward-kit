@@ -1,3 +1,10 @@
+/* @primitive
+name: OfferCard
+use: Something the player can buy: a coin pack or a bundle, with its price on the button.
+not: Free rewards (use RewardChest) or progress (use LevelBar).
+rules: The anatomy is fixed: badge, name, coins, bonus, price button, timer. Empty rows keep their height, so cards in a row line up. At most one featured card per row. Take name, coins, bonus and price from PACKS in the economy helper so the numbers stay true; do not type amounts by hand. endsInSeconds adds a live countdown and disables the button at zero.
+example: <OfferCard name="Starter" coins={5000} price="$1.99" onBuy={() => {}} />
+*/
 import { useEffect, useRef, useState } from "react";
 import { Coin } from "./Coin";
 import { useCountdown } from "../lib/useCountdown";

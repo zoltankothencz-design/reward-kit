@@ -1,0 +1,19 @@
+[
+  {
+    "name": "WeeklyChallenge",
+    "brief": "Weekly challenge: spin 50 times this week to open a chest. Show the progress, and let the player start the next week after collecting.",
+    "by": "Claude Opus 5.5 (wrote the kit, dry run)",
+    "startedAt": "2026-10-11T16:16:55.307Z",
+    "attempts": [
+      {
+        "at": "2026-10-11T16:17:21.145Z",
+        "passed": true
+      }
+    ],
+    "alsoChanged": [
+      "src/lib/economy.ts"
+    ],
+    "finishedAt": "2026-10-11T16:17:21.145Z",
+    "seconds": 26
+  }
+]

@@ -1,3 +1,7 @@
+/* @helper
+name: useCountdown
+use: const { label, expired } = useCountdown(seconds) gives a ticking "H:MM:SS" label. OfferCard already uses it through endsInSeconds; reach for it directly only for a deadline that is not on an offer.
+*/
 import { useEffect, useState } from "react";
 
 // Counts down from `seconds` once per second and returns a "H:MM:SS" label.

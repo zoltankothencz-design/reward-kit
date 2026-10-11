@@ -1,16 +1,19 @@
 {
   "name": "reward-kit",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
     "dev": "npm run tokens && vite",
-    "build": "npm run tokens && npm run check && npm run spec && npm run test && tsc --noEmit && vite build",
+    "build": "npm run tokens && npm run check && npm run catalog && npm run spec && npm run test && tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "node scripts/check-styles.mjs",
     "spec": "node scripts/build-motion-spec.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "catalog": "node scripts/build-catalog.mjs",
+    "template:new": "node scripts/new-template.mjs",
+    "template:verify": "node scripts/verify-template.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

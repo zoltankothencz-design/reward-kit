@@ -3,12 +3,12 @@ import { DailyStreak } from "../components/DailyStreak";
 import { RewardChest } from "../components/RewardChest";
 import type { Tier } from "../components/RewardChest";
 import { DAILY_REWARDS } from "../lib/economy";
-import "./templates.css";
+import { TemplateShell } from "./TemplateShell";
 
 const TIER_BY_DAY: Tier[] = ["mini", "mini", "minor", "minor", "major", "major", "grand"];
 
 // Template: daily bonus screen. Built only from primitives (DailyStreak and
-// RewardChest); it owns the rules that connect them: collecting a day opens
+// RewardChest); it owns the rule that connects them: collecting a day opens
 // that day's chest.
 export function DailyBonus() {
   const [claimed, setClaimed] = useState(3);
@@ -28,15 +28,10 @@ export function DailyBonus() {
   };
 
   return (
-    <section className="rk-template rk-daily" aria-labelledby="daily-title">
-      <header className="rk-template__head">
-        <h3 id="daily-title">Daily bonus</h3>
-        <p>Collect every day to keep your streak and reach the bonus chest.</p>
-      </header>
-
+    <TemplateShell title="Daily bonus" intro="Collect every day to keep your streak and reach the bonus chest.">
       <DailyStreak rewards={DAILY_REWARDS} claimed={claimed} canClaim={canClaim} onClaim={onClaim} />
 
-      <div className="rk-daily__stage">
+      <div className="rk-template__stage">
         {reward ? (
           <RewardChest tier={TIER_BY_DAY[reward.day]} amount={reward.amount} autoPlay />
         ) : (
@@ -47,6 +42,6 @@ export function DailyBonus() {
       <button className="rk-button rk-button--quiet" onClick={restart}>
         Restart demo
       </button>
-    </section>
+    </TemplateShell>
   );
 }

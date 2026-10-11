@@ -4,7 +4,7 @@ import { RewardChest } from "../components/RewardChest";
 import type { Tier } from "../components/RewardChest";
 import { levelReward } from "../lib/economy";
 import { useLevelProgress } from "../lib/useLevelProgress";
-import "./templates.css";
+import { TemplateShell } from "./TemplateShell";
 
 type LevelReward = { level: number; amount: number; tier: Tier };
 
@@ -18,15 +18,10 @@ export function LevelUp() {
   );
 
   return (
-    <section className="rk-template rk-levelup" aria-labelledby="level-title">
-      <header className="rk-template__head">
-        <h3 id="level-title">Level up</h3>
-        <p>Every new level pays a chest.</p>
-      </header>
-
+    <TemplateShell title="Level up" intro="Every new level pays a chest.">
       <LevelBar level={level} xp={xp} snap={snap} />
 
-      <div className="rk-levelup__buttons">
+      <div className="rk-template__row">
         <button className="rk-button" onClick={() => gain(40)}>
           +40 XP
         </button>
@@ -39,7 +34,7 @@ export function LevelUp() {
       </div>
 
       {reward ? (
-        <div className="rk-levelup__reward">
+        <div className="rk-template__stack">
           <h4>Level {reward.level} reached</h4>
           <RewardChest tier={reward.tier} amount={reward.amount} autoPlay />
           <button className="rk-button rk-button--quiet" onClick={() => setReward(null)}>
@@ -49,6 +44,6 @@ export function LevelUp() {
       ) : (
         <p className="rk-template__hint">Add XP to reach the next level.</p>
       )}
-    </section>
+    </TemplateShell>
   );
 }

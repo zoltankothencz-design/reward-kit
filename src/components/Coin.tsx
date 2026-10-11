@@ -1,8 +1,19 @@
+/* @primitive
+name: Coin
+use: The coin icon next to an amount of coins.
+not: Decoration. If there is no coin amount beside it, leave it out.
+rules: Colours come from the brand's gold shades. Set only the size.
+example: <Coin size={24} />
+*/
 import { useId } from "react";
 import "./Coin.css";
 
-// The shared coin icon. Colours come from the brand's gold shades.
-export function Coin({ size = 24 }: { size?: number }) {
+type Props = {
+  /** width and height in pixels, default 24 */
+  size?: number;
+};
+
+export function Coin({ size = 24 }: Props) {
   const uid = useId().replace(/:/g, "");
   return (
     <span className="rk-coin" style={{ width: size, height: size }}>

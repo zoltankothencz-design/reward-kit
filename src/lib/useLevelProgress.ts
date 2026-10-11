@@ -1,3 +1,8 @@
+/* @helper
+name: useLevelProgress
+use: Level and XP state for a LevelBar. const { level, xp, snap, gain } = useLevelProgress(startLevel, startXp, onLevelUp). Call gain(amount) to add XP; it plays the fill, the level change and the remainder in order, and calls onLevelUp(newLevel) for each level crossed.
+rules: Pass level, xp and snap straight to LevelBar. Do not write timers in a template to sequence this yourself.
+*/
 import { useCallback, useEffect, useRef, useState } from "react";
 import { level as timing } from "../tokens/generated";
 import { xpForLevel } from "./economy";

@@ -1,3 +1,10 @@
+/* @primitive
+name: RewardChest
+use: The payoff moment. A reward the player has earned is revealed, counted up and collected.
+not: Showing a price, a balance or progress. Not for something the player still has to pay for (that is OfferCard).
+rules: One chest per reward. tier only sets the gem and glow colour, in rising order mini, minor, major, grand; pick it by how big this reward is next to the others in the same flow. With autoPlay it opens as soon as it appears and again when tier or amount change; without it the player taps Open. Mount it only when there is a reward to show. onStateChange reports idle, opening, open, claimed.
+example: <RewardChest tier="major" amount={2500} autoPlay />
+*/
 import { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { chest as timing, easing } from "../tokens/generated";
@@ -92,7 +99,11 @@ export const RewardChest = forwardRef<RewardChestHandle, Props>(function RewardC
     return clearTimers;
   }, [tier, amount, autoPlay, reset, play]);
 
-  const shown = useCountUp(amount, counting, reduced ? 0 : timing.count, easing.out);
+  const counted = useCountUp(amount, counting, reduced ? 0 : timing.count, easing.out);
+  // Once the chest is open the amount is final. The count-up runs on animation
+  // frames, which a browser pauses in a background tab; the state timer does
+  // not pause, so without this the chest could say "open" beside a stale number.
+  const shown = state === "open" || state === "claimed" ? amount : counted;
   const isOpen = state !== "idle";
 
   return (

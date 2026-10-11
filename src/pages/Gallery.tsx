@@ -4,9 +4,7 @@ import type { ChestState, RewardChestHandle, Tier } from "../components/RewardCh
 import { LevelBar } from "../components/LevelBar";
 import { OfferCard } from "../components/OfferCard";
 import { DailyStreak } from "../components/DailyStreak";
-import { DailyBonus } from "../templates/DailyBonus";
-import { OfferStore } from "../templates/OfferStore";
-import { LevelUp } from "../templates/LevelUp";
+import { TEMPLATES } from "../templates";
 import { DAILY_REWARDS } from "../lib/economy";
 import { useLevelProgress } from "../lib/useLevelProgress";
 import { brands } from "../tokens/generated";
@@ -105,9 +103,14 @@ export function Gallery({ brand }: { brand: BrandId }) {
             own; the style check fails the build if it does.
           </p>
           <div className="templates">
-            <DailyBonus />
-            <LevelUp />
-            <OfferStore />
+            {TEMPLATES.map(({ id, brief, Component }) => (
+              <div key={id} className="templates__item">
+                <p className="templates__brief">
+                  <span className="field__label">Brief</span> {brief}
+                </p>
+                <Component />
+              </div>
+            ))}
           </div>
         </section>
 
