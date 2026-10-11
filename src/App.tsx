@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Gallery } from "./pages/Gallery";
 import { MotionSpec } from "./pages/MotionSpec";
 import { Economy } from "./pages/Economy";
+import { TEMPLATES } from "./templates";
 import { brands } from "./tokens/generated";
 import type { BrandId } from "./tokens/generated";
 import "./App.css";
 import "./pages/pages.css";
 
 const TABS = [
-  { id: "gallery", label: "Gallery", intro: "Four primitives and three templates, all themed by the brand switch." },
+  { id: "gallery", label: "Gallery", intro: `Five primitives and ${TEMPLATES.length} templates, all themed by the brand switch.` },
   { id: "motion", label: "Motion spec", intro: "Durations, curves and the beat-by-beat timing of every primitive." },
   { id: "economy", label: "Economy", intro: "The numbers behind the rewards: does a month of play hold together?" },
 ] as const;

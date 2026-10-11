@@ -3,6 +3,8 @@
 A code-first design system for reward and gamification mechanics, themed for several brands.
 The brands (Aurum, Amber, Frost) are fictional. Built with Claude Code.
 
+**Live demo: https://zoltankothencz-design.github.io/reward-kit/** (deployed from `main` by `.github/workflows/pages.yml`, which runs the full build first).
+
 ## Status
 
 All five phases are done, and a prize wheel was added afterwards because the cold trial showed the kit lacked one. Phase 4 was tried by agents that had never seen the code; what they did and what the trial exposed is below.
