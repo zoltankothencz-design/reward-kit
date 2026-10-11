@@ -234,6 +234,8 @@ h4 {
   color: var(--rk-color-text);
   font: inherit;
 }
+.mc__sliders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rk-space-6); max-width: 720px; }
+.mc__controls .muted { align-self: center; font-size: var(--rk-font-size-sm); }
 .mc__results { display: grid; gap: var(--rk-space-4); min-width: 0; }
 .mc__bars { display: grid; gap: var(--rk-space-2); margin: 0; padding: 0; list-style: none; }
 .mc__bar {
@@ -248,6 +250,7 @@ h4 {
 .mc__bar-value { text-align: right; font-variant-numeric: tabular-nums; }
 
 @media (max-width: 640px) {
+  .mc__sliders { grid-template-columns: minmax(0, 1fr); }
   .mc__bar { grid-template-columns: minmax(0, 1fr) 52px; }
   .mc__bar-track { grid-column: 1 / -1; grid-row: 2; }
 }
