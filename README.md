@@ -117,7 +117,7 @@ this demo, not an industry benchmark.
 
 ## Known limits
 
-- Reduced-motion behaviour is implemented but not yet tested with the setting switched on.
+- Reduced-motion behaviour was checked once by hand (Playwright with the setting emulated, 2026-10-11) on the wheel, chest, level bar and streak: no animation or transition runs and each lands on its end state. It is not an automated test, so it can regress without the build noticing.
 - The style check is a text scan, not a CSS parser. It catches the usual slips, not every way to hard-code a value.
 - The motion spec check proves a file uses a token, not that it uses it for the beat the spec describes.
 - `motion.easing.in` is defined but no component uses it yet.
