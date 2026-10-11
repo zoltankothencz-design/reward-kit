@@ -28,7 +28,7 @@ export function DailyPrizeWheel() {
   return (
     <TemplateShell title="Daily prize wheel" intro="Spin the wheel once a day and collect the prize it lands on.">
       <div className="rk-template__pair">
-        <PrizeWheel key={round} segments={SEGMENTS} landOn={landOn} onLanded={onLanded} />
+        <PrizeWheel key={round} segments={SEGMENTS} landOn={landOn} onLanded={onLanded} lockedLabel={won !== null ? "Come back tomorrow" : undefined} />
 
         <div className="rk-template__stage">
           {won !== null ? (

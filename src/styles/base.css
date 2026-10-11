@@ -58,6 +58,11 @@ body {
   transform: translateY(1px);
   transition-duration: var(--rk-motion-duration-instant);
 }
+.rk-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
 .rk-button:focus-visible,
 .rk-segmented button:focus-visible {
   outline: 2px solid var(--rk-color-text);

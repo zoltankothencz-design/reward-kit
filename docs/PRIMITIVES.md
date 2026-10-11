@@ -129,7 +129,7 @@ Source: `src/components/PrizeWheel.tsx`
 
 **Not for:** A reward reveal on its own (that is RewardChest), or a way to decide the result. The wheel never picks the prize; it only shows the one it is told to land on.
 
-**Rules:** Pass 2 to 12 segments, each with a short label and a tier that sets the slice colour (rising order mini, minor, major, grand). landOn is the index of the winning segment and must be set before the player taps Spin; pick it with the economy helper pickWheelPrize, never inside the wheel or the template. onLanded(index) fires when the wheel has stopped, so give the reward from there. After a spin, change landOn for the next one. With reduced motion the wheel is on the winning slice at once.
+**Rules:** Pass 2 to 12 segments, each with a short label and a tier that sets the slice colour (rising order mini, minor, major, grand). landOn is the index of the winning segment and must be set before the player taps Spin; pick it with the economy helper pickWheelPrize, never inside the wheel or the template. onLanded(index) fires when the wheel has stopped, so give the reward from there. After a spin, change landOn for the next one. With reduced motion the wheel is on the winning slice at once. For a limit such as one spin a day, pass lockedLabel (for example "Come back tomorrow") once the spin is used: the button then shows that text, is disabled, and the wheel will not spin.
 
 ```tsx
 <PrizeWheel segments={WHEEL_PRIZES.map((p) => ({ label: formatCoins(p.amount), tier: p.tier }))} landOn={3} onLanded={(i) => grant(WHEEL_PRIZES[i].amount)} />
@@ -144,6 +144,8 @@ Props:
   landOn: number;
   /** fires when the wheel has stopped, with the winning index */
   onLanded?: (index: number) => void;
+  /** when set, spinning is refused and the button shows this text instead, for example "Come back tomorrow" */
+  lockedLabel?: string;
 ```
 
 ## RewardChest

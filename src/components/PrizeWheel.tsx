@@ -2,7 +2,7 @@
 name: PrizeWheel
 use: A wheel of prizes the player spins once. It lands on the slice the parent chose, then reports it.
 not: A reward reveal on its own (that is RewardChest), or a way to decide the result. The wheel never picks the prize; it only shows the one it is told to land on.
-rules: Pass 2 to 12 segments, each with a short label and a tier that sets the slice colour (rising order mini, minor, major, grand). landOn is the index of the winning segment and must be set before the player taps Spin; pick it with the economy helper pickWheelPrize, never inside the wheel or the template. onLanded(index) fires when the wheel has stopped, so give the reward from there. After a spin, change landOn for the next one. With reduced motion the wheel is on the winning slice at once.
+rules: Pass 2 to 12 segments, each with a short label and a tier that sets the slice colour (rising order mini, minor, major, grand). landOn is the index of the winning segment and must be set before the player taps Spin; pick it with the economy helper pickWheelPrize, never inside the wheel or the template. onLanded(index) fires when the wheel has stopped, so give the reward from there. After a spin, change landOn for the next one. With reduced motion the wheel is on the winning slice at once. For a limit such as one spin a day, pass lockedLabel (for example "Come back tomorrow") once the spin is used: the button then shows that text, is disabled, and the wheel will not spin.
 example: <PrizeWheel segments={WHEEL_PRIZES.map((p) => ({ label: formatCoins(p.amount), tier: p.tier }))} landOn={3} onLanded={(i) => grant(WHEEL_PRIZES[i].amount)} />
 */
 import { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
@@ -22,6 +22,8 @@ type Props = {
   landOn: number;
   /** fires when the wheel has stopped, with the winning index */
   onLanded?: (index: number) => void;
+  /** when set, spinning is refused and the button shows this text instead, for example "Come back tomorrow" */
+  lockedLabel?: string;
 };
 
 const CX = 100;
@@ -46,7 +48,7 @@ export const restingAngle = (current: number, index: number, count: number) => {
   return Math.floor(current / 360) * 360 + FULL_TURNS * 360 + target;
 };
 
-export const PrizeWheel = forwardRef<PrizeWheelHandle, Props>(function PrizeWheel({ segments, landOn, onLanded }, ref) {
+export const PrizeWheel = forwardRef<PrizeWheelHandle, Props>(function PrizeWheel({ segments, landOn, onLanded, lockedLabel }, ref) {
   const [state, setState] = useState<WheelState>("idle");
   const [angle, setAngle] = useState(0);
   // The slice this spin is heading for. landOn may already point at the next prize when the wheel reports.
@@ -59,7 +61,7 @@ export const PrizeWheel = forwardRef<PrizeWheelHandle, Props>(function PrizeWhee
   const winner = segments[spunTo];
 
   const spin = useCallback(() => {
-    if (state === "spinning") return;
+    if (state === "spinning" || lockedLabel) return;
     window.clearTimeout(timer.current);
     setInstant(reduced);
     setSpunTo(landOn);
@@ -74,7 +76,7 @@ export const PrizeWheel = forwardRef<PrizeWheelHandle, Props>(function PrizeWhee
       setState("landed");
       onLanded?.(landOn);
     }, timing.spin);
-  }, [state, reduced, landOn, segments.length, onLanded]);
+  }, [state, lockedLabel, reduced, landOn, segments.length, onLanded]);
 
   useImperativeHandle(ref, () => ({ spin }), [spin]);
   useEffect(() => () => window.clearTimeout(timer.current), []);
@@ -125,8 +127,8 @@ export const PrizeWheel = forwardRef<PrizeWheelHandle, Props>(function PrizeWhee
       <p className="rk-wheel__result" aria-live="polite">
         {state === "landed" ? `Landed on ${winner.label}` : ""}
       </p>
-      <button className="rk-button" onClick={spin} disabled={state === "spinning"}>
-        {state === "spinning" ? "Spinning" : state === "landed" ? "Spin again" : "Spin"}
+      <button className="rk-button" onClick={spin} disabled={state === "spinning" || !!lockedLabel}>
+        {lockedLabel ?? (state === "spinning" ? "Spinning" : state === "landed" ? "Spin again" : "Spin")}
       </button>
     </div>
   );

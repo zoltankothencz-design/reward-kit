@@ -106,7 +106,8 @@
     "finishedAt": "2026-10-11T16:51:22.725Z",
     "seconds": 31,
     "review": [
-      "Checked in the browser (Amber, desktop and 375 px): wheel lands on the chosen slice, the chest opens beside it (stacked on a phone), no overflow. Confirmed the agent's gap: the wheel's Spin again button stays clickable, so one spin per day is enforced in logic but cannot be shown to the player. The primitive needs a locked prop. The first (2026-10-11) run of this brief stopped for lack of a wheel; with PrizeWheel it was built in 0.5 min, 1 gate attempt, nothing changed outside the template."
+      "Checked in the browser (Amber, desktop and 375 px): wheel lands on the chosen slice, the chest opens beside it (stacked on a phone), no overflow. Confirmed the agent's gap: the wheel's Spin again button stays clickable, so one spin per day is enforced in logic but cannot be shown to the player. The primitive needs a locked prop. The first (2026-10-11) run of this brief stopped for lack of a wheel; with PrizeWheel it was built in 0.5 min, 1 gate attempt, nothing changed outside the template.",
+      "Gap closed by the owner: PrizeWheel got a lockedLabel prop (disabled button with that text, spin refused) and the template passes 'Come back tomorrow' once the prize is won. Checked in the browser: locked after landing, a click does not move the wheel, Next day restores Spin. Also changed outside the template: PrizeWheel.tsx and a disabled style for rk-button in base.css."
     ]
   }
 ]
