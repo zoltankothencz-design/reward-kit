@@ -11,6 +11,7 @@
     "check": "node scripts/check-styles.mjs",
     "spec": "node scripts/build-motion-spec.mjs",
     "test": "vitest run",
+    "test:motion": "node scripts/test-reduced-motion.mjs",
     "catalog": "node scripts/build-catalog.mjs",
     "template:new": "node scripts/new-template.mjs",
     "template:verify": "node scripts/verify-template.mjs",
@@ -26,6 +27,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "playwright-core": "^1.64.0",
     "typescript": "^5.6.3",
     "vite": "^6.0.0",
     "vitest": "^5.0.3"
