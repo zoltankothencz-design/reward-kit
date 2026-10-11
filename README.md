@@ -15,7 +15,7 @@ All five phases are done, and a prize wheel was added afterwards because the col
 | 2 | Level bar, offer card, daily streak, first templates | done |
 | 3 | Motion spec page, reward economy calculator | done |
 | 4 | Skill and tooling that build a new mechanic from a brief, with measured runs | done, one trial of three briefs and one re-run |
-| 5 | Figma variables and brand sheet generated from the tokens | done (tokens and specimen only, no components) |
+| 5 | Figma variables, brand sheet and components, built by scripts in the repository | done (five components, drawn simplified and static) |
 | after | Prize wheel primitive, daily prize wheel template, automated reduced-motion test | done |
 
 ## Run it
@@ -41,7 +41,7 @@ Opens on http://localhost:5183. Three tabs: Gallery, Motion spec, Economy.
 - `docs/AI-RUNS.md`: one measured row per template built through the skill. Generated.
 - `src/lib/economy.ts`: the reward numbers (level curve, level rewards, daily rewards, store packs, prize wheel slices and odds) and a 30-day player simulation.
 - `docs/MOTION.md`: the motion spec for engineers. Generated, do not edit by hand.
-- `figma/` and `docs/FIGMA.md`: scripts that build the Figma variables and brand sheet from the tokens, and what is in the file.
+- `figma/` and `docs/FIGMA.md`: scripts that build the Figma variables, the brand sheet and the five components, and what is in the file.
 
 ## What the build enforces
 

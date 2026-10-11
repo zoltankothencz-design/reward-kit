@@ -18,7 +18,8 @@
     "template:verify": "node scripts/verify-template.mjs",
     "template:abandon": "node scripts/abandon-template.mjs",
     "template:review": "node scripts/review-template.mjs",
-    "figma": "node scripts/build-figma.mjs"
+    "figma": "node scripts/build-figma.mjs",
+    "figma:components": "node scripts/build-figma-components.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

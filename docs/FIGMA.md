@@ -33,11 +33,38 @@ writes `figma/variables.js` from the tokens. Run that script in the file, then `
 MCP tool `use_figma` (or any way of running Plugin API code). Both are safe to run again: variables are matched by name and
 updated in place, and the brand sheet replaces its own frames.
 
+## Components
+
+The `Components` page holds five sets, drawn by the scripts in `figma/components/`. Every fill, stroke, radius, spacing, font family
+and font size is bound to a variable, so changing a token and re-running `npm run figma` updates them.
+
+| Set | Variants | What varies |
+|---|---|---|
+| `RewardChest` | 24 | Brand x Tier (mini, minor, major, grand) x State (closed, open); text property Amount |
+| `PrizeWheel` | 6 | Brand x State (spin, locked); slices follow the prize table in `src/lib/economy.ts` |
+| `LevelBar` | 9 | Brand x Progress (25%, 60%, 100%); text property Level |
+| `OfferCard` | 6 | Brand x Featured; text properties Name, Coins, Bonus, Price |
+| `DailyStreakTile` and `DailyStreak` | 18 and 3 | the tile is Brand x State (claimed, today, upcoming) x Bonus; the row is built from seven tile instances |
+
+```bash
+npm run figma:components
+```
+
+writes one complete script per component into `figma/components/run/` (a shared prelude plus the component file, checked to compile).
+Run each through `use_figma` after `figma/variables.js`. Only `LevelBar` has been rebuilt end to end from these repository files; the
+other four were built by the same code in separate runs and were then moved into the repository, so a first re-run of each is worth
+a quick visual check.
+
 ## Limits
 
 - Motion values are stored as numbers and text for reference. Figma cannot play them; `docs/MOTION.md` is the motion spec.
 - Letter spacing is in em in the tokens. Figma number variables have no em unit, so it is stored as text and not bound.
-- The primitives themselves (chest, level bar, offer card, daily streak) are not built as Figma components. Only tokens and the
-  specimen sheet are.
+- The components are simplified static drawings of the coded primitives: flat fills instead of gradients, no shine, no sparkles, and
+  no motion. They show anatomy, variants and token use, not the finished look of the live demo.
+- Brand is a variant property (`Brand=Aurum, Amber, Frost`), not a variable mode, because the file was built on a plan that allowed
+  one mode per collection. Each variant is bound to its own brand's variables. With modes, a single component bound to one
+  `Brand` collection would switch brand by mode.
+- Figma component sets cannot be re-generated incrementally: running a script removes the set of the same name and builds it
+  again, so any hand edits to that set are lost.
 - Colours derived in CSS with `color-mix` (the wood and gold shades) have no Figma variable; only the three chest colours they
   are derived from do.
