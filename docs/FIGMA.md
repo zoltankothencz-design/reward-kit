@@ -46,6 +46,9 @@ and font size is bound to a variable, so changing a token and re-running `npm ru
 | `OfferCard` | 6 | Brand x Featured; text properties Name, Coins, Bonus, Price |
 | `DailyStreakTile` and `DailyStreak` | 18 and 3 | the tile is Brand x State (claimed, today, upcoming) x Bonus; the row is built from seven tile instances |
 
+The `Overview` page shows every component in all three brands as instances in one frame (`figma/components/Overview.js`; run it
+last, it needs the sets above).
+
 ```bash
 npm run figma:components
 ```
